@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    @using Kendo.Mvc;
+    @using Kendo.Mvc.UI;
+    @using Kendo.Mvc.UI.Fluent;
+    @using KendoTest.Models;
+    @{
+        var thuctap = Model;
+        ViewBag.Title = "Home Page";
+        string action = "LoadListSv";
+        string controllerName = "Home";
+    }
+
+    <main>
+        @(Html.Kendo().Grid<TBLSinhVien>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(sv => sv.Masv).Title("Mã sinh viên");
+        columns.Bound(sv => sv.Hotensv).Title("Họ tên sv");
+        columns.Bound(sv => sv.Namsinh).Title("Năm sinh");
+        columns.Bound(sv => sv.Quequan).Title("Quê quán");
+        columns.Bound(sv => sv.Makhoa).Title("Mã khóa");
+        columns.Bound(sv => sv.Masv).Title("Edit").ClientTemplate("<a href='" + Url.Action("EditSv", "Home") + "?maSv=#=Masv#'" + ">Edit</a>");
+        columns.Bound(sv => sv.Masv).Title("Delete").ClientTemplate("<a href='" + Url.Action("DeleteSv", "Home") + "?maSv=#=Masv#'" + ">Delete</a>");
+    })
+     .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .Read(read => read.Action(action, controllerName))
+    )
+    .Pageable()
+    .Scrollable(scroll => scroll.Height("auto"))
+    .Sortable()
+
+)
+    </main>
+    ''
+</main>

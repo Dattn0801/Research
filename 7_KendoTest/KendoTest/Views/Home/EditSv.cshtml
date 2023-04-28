@@ -1,0 +1,57 @@
+﻿@model KendoTest.Models.TBLSinhVien
+@{
+    var Sv = Model;
+    ViewBag.Title = "EditSv";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="k-w-300">
+        @*@using (Html.BeginForm("EditSv", "Home", FormMethod.Post))
+            {
+                @Html.HiddenFor(x => x.Masv)
+                @Html.TextBoxFor(x => x.Hotensv)
+                @Html.TextBoxFor(x => x.Namsinh)
+                @Html.TextBoxFor(x => x.Quequan)
+                @Html.TextBoxFor(x => x.Makhoa)
+                <button type="submit">luu</button>
+            }*@
+
+        @Html.HiddenFor(x => x.Masv)
+        @Html.TextBoxFor(x => x.Hotensv)
+        @Html.TextBoxFor(x => x.Namsinh)
+        @Html.TextBoxFor(x => x.Quequan)
+        @Html.TextBoxFor(x => x.Makhoa)
+        <button type="submit" id="submit">luu</button>
+    </div>
+</div>
+<script>$("#submit").click(function () {
+        var Id = $('#Masv').val();
+        var Hoten = $('#Hotensv').val();
+        var Address = $('#Namsinh').val();
+        var Location = $('#Quequan').val();
+        var MaKhoa = $('#Makhoa').val();
+        debugger;
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/EditSv",
+            data: {
+                Masv   : Id,
+                Hotensv: Hoten,
+                Namsinh: Address,
+                Makhoa: MaKhoa,
+                Quequan: Location
+            },
+            success: function (response) {
+                if (response != null) {
+                    console.log('ok')
+                    location.href = "/Home/Index"
+                } else {
+                    console.log('sth wrong ')
+                }
+            },
+        });
+
+    });</script>
+
