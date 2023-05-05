@@ -27,16 +27,13 @@
         columns.Bound(sv => sv.Masv).Title("Edit").ClientTemplate("<a href='" + Url.Action("EditSv", "Home") + "?maSv=#=Masv#'" + ">Edit</a>");
         columns.Bound(sv => sv.Masv).Title("Delete").ClientTemplate("<a href='" + Url.Action("DeleteSv", "Home") + "?maSv=#=Masv#'" + ">Delete</a>");
     })
-     .DataSource(dataSource => dataSource
+    .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(10)
-        .Read(read => read.Action(action, controllerName))
-    )
+        .Read(read => read.Action(action, controllerName)))
     .Pageable()
     .Scrollable(scroll => scroll.Height("auto"))
-    .Sortable()
-
-)
+    .Sortable().Selectable()
+    )
     </main>
-    ''
 </main>
