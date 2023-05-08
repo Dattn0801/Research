@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
+using System.Web.ModelBinding;
 using KendoTest.Models;
 using KendoTest.ViewModel;
 
@@ -39,13 +41,31 @@ namespace KendoTest.Services
         }
         public TBLSinhVien editSinhVien(TBLSinhVien model)
         {
-            var entity = ctx.TBLSinhViens.Where(x => x.Masv == model.Masv).FirstOrDefault();
-            entity.Hotensv = model.Hotensv;
-            entity.Namsinh = model.Namsinh;
-            entity.Makhoa = model.Makhoa;
-            entity.Quequan = model.Quequan;
-            ctx.SaveChanges();
-            return model;
+            try
+            {
+                var entity = ctx.TBLSinhViens.Where(x => x.Masv == model.Masv).FirstOrDefault();
+                entity.Hotensv = model.Hotensv;
+                entity.Namsinh = model.Namsinh;
+                entity.Makhoa = model.Makhoa;
+                entity.Quequan = model.Quequan;
+                ctx.SaveChanges();
+                return model;
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    var name = eve.Entry.Entity.GetType().Name;
+                    var state = eve.Entry.State;
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        var propertyName = eve.Entry.Entity.GetType().Name;
+                        var errorMessage = eve.Entry.State;
+                    }
+                }
+                throw;
+            }
+
         }
         public TBLSinhVien deleteSinhVien(int? maSv)
         {
@@ -53,6 +73,21 @@ namespace KendoTest.Services
             ctx.TBLSinhViens.Remove(entity);
             ctx.SaveChanges();
             return entity;
+        }
+
+        public void createSinhVien(TBLSinhVien model)
+        {
+            {
+            if (model != null)
+                ctx.TBLSinhViens.Add(model);
+                ctx.SaveChanges();
+            }
+        }
+        public List<TBLKhoa> ListKhoa()
+        {
+           // var listKhoa = ctx.TBLKhoas.ToList();
+           // return listKhoa;
+            return ctx.TBLKhoas.ToList();
         }
     }
 

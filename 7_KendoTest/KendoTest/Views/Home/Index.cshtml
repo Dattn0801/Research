@@ -15,6 +15,7 @@
     }
 
     <main>
+        @Html.ActionLink("Tạo","CreateSV","Home")
         @(Html.Kendo().Grid<TBLSinhVien>()
     .Name("grid")
     .Columns(columns =>

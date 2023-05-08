@@ -1897,6 +1897,7 @@
     <Content Include="Scripts\kendo\2016.3.1118\messages\kendo.messages.zh-TW.min.js.map" />
     <Content Include="Views\ViewPage1.cshtml" />
     <Content Include="Views\Home\EditSv.cshtml" />
+    <Content Include="Views\Home\CreateSv.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

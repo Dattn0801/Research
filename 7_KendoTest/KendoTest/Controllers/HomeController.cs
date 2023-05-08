@@ -13,7 +13,7 @@ using System.Data.Entity.Validation;
 namespace KendoTest.Controllers
 {
     public class HomeController : Controller
-    {      
+    {
         SinhVienService svService = new SinhVienService();
         public ActionResult Index()
         {
@@ -27,8 +27,10 @@ namespace KendoTest.Controllers
         }
 
         public ActionResult EditSv(int? maSv)
-        {          
+        {
             var editSv = svService.getSinhVien(maSv);
+            var listKhoa = svService.ListKhoa();
+            ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
             return View(editSv);
         }
 
@@ -41,11 +43,26 @@ namespace KendoTest.Controllers
 
         //[HttpPost]
         public ActionResult DeleteSv(int? maSv)
-        {         
+        {
             svService.deleteSinhVien(maSv);
             return RedirectToAction("Index");
         }
 
+        public ActionResult createSv()
+        {
+            var listKhoa = svService.ListKhoa();
+            ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
+            return View("CreateSv");
+        }
+        [HttpPost]
+        public ActionResult CreateSv(TBLSinhVien model)
+        {
+            svService.createSinhVien(model);
+
+            //var listKhoa = svService.ListKhoa();
+            //ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
+            return RedirectToAction("Index");
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

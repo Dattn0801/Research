@@ -10,11 +10,11 @@
         <EntityTypeShape EntityType="ThucTapModel.TBLGiangVien" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ThucTapModel.TBLHuongDan" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ThucTapModel.TBLKhoa" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThucTapModel.TBLSinhVien" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
         <AssociationConnector Association="ThucTapModel.FK__TBLHuongDa__Madt__412EB0B6" ManuallyRouted="false" />
         <AssociationConnector Association="ThucTapModel.FK__TBLGiangV__Makho__398D8EEE" ManuallyRouted="false" />
         <AssociationConnector Association="ThucTapModel.FK__TBLHuongDa__Magv__4222D4EF" ManuallyRouted="false" />
-        <AssociationConnector Association="ThucTapModel.FK__TBLSinhVi__Makho__3C69FB99" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ThucTapModel.TBLSinhVien" Width="1.5" PointX="3" PointY="10.5" />
+        <AssociationConnector Association="ThucTapModel.FK__TBLSinhVi__Makho__4222D4EF" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
