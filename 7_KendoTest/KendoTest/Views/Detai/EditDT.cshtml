@@ -1,0 +1,65 @@
+﻿@model KendoTest.Models.TBLDeTai
+@{
+    ViewBag.Title = "EditDT";
+}
+
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="k-w-300">
+        @using (Html.BeginForm("EditDT", "Detai", FormMethod.Post))
+        {
+            @Html.HiddenFor(x => x.Madt)
+            <div class="row">
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Tên đề tài</label>
+                    </div>
+                    @Html.TextBoxFor(x => x.Tendt, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Kinh phí</label>
+                    </div>
+                    @Html.TextBoxFor(x => x.Kinhphi, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Nơi thực tập</label>
+                    </div>
+                    @Html.TextBoxFor(x => x.Noithuctap, new { @class = "form-control" })
+                </div>
+            </div>
+            <br/>
+            <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
+    }
+
+        @*@Html.HiddenFor(x => x.Masv)
+        <div class="row">
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Họ tên</label>
+                </div>
+                @Html.TextBoxFor(x => x.Hotensv, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Năm sinh</label>
+                </div>
+                @Html.TextBoxFor(x => x.Namsinh, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Quê quán</label>
+                </div>
+                @Html.TextBoxFor(x => x.Quequan, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Mã khoa</label>
+                </div>
+                @Html.DropDownListFor(x => x.Makhoa, (IEnumerable<SelectListItem>)ViewBag.ListKhoa, "Chọn mã khoa", new { @class = "btn btn-primary" })
+            </div>
+        </div>
+        <br />
+        <button type="submit" id="submit" class="btn btn-primary">Lưu</button>*@
+    </div>
+</div>

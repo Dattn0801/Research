@@ -1,7 +1,13 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+<div class="row mt-1 mb-1 ">
+    <div class="col">
+        <div class="float-lg-end">
+            @Html.ActionLink("Tạo", "CreateSV", "Home", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
 <main>
     @using Kendo.Mvc;
     @using Kendo.Mvc.UI;
@@ -14,19 +20,20 @@
         string controllerName = "Home";
     }
 
-    <main>
-        @Html.ActionLink("Tạo","CreateSV","Home")
-        @(Html.Kendo().Grid<TBLSinhVien>()
+
+
+    @(Html.Kendo().Grid<TBLSinhVien>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(sv => sv.Masv).Title("Mã sinh viên");
         columns.Bound(sv => sv.Hotensv).Title("Họ tên sv");
         columns.Bound(sv => sv.Namsinh).Title("Năm sinh");
         columns.Bound(sv => sv.Quequan).Title("Quê quán");
-        columns.Bound(sv => sv.Makhoa).Title("Mã khóa");
-        columns.Bound(sv => sv.Masv).Title("Edit").ClientTemplate("<a href='" + Url.Action("EditSv", "Home") + "?maSv=#=Masv#'" + ">Edit</a>");
-        columns.Bound(sv => sv.Masv).Title("Delete").ClientTemplate("<a href='" + Url.Action("DeleteSv", "Home") + "?maSv=#=Masv#'" + ">Delete</a>");
+        columns.Bound(sv => sv.Makhoa).Title("Mã khoa");
+        columns.Bound(sv => sv.Masv)
+       .Title("Actions")
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditSv", "Home") + "?maSv=#=Masv#'" + ">Edit</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteSv", "Home") + "?maSv=#=Masv#'" + ">Delete</a>");
+
     })
     .DataSource(dataSource => dataSource
         .Ajax()
@@ -36,5 +43,4 @@
     .Scrollable(scroll => scroll.Height("auto"))
     .Sortable().Selectable()
     )
-    </main>
 </main>

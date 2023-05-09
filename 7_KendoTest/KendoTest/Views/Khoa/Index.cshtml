@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Khoa";
+}
+<div class="row mt-1 mb-1 ">
+    <div class="col">
+        <div class="float-lg-end">
+            @Html.ActionLink("Tạo", "CreateKhoa", "Khoa", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+
+</div>
+<main>
+    @using Kendo.Mvc;
+    @using Kendo.Mvc.UI;
+    @using Kendo.Mvc.UI.Fluent;
+    @using KendoTest.Models;
+    @{
+        var thuctap = Model;
+        ViewBag.Title = "Khoa";
+        string action = "LoadListKhoa";
+        string controllerName = "Khoa";
+    }
+
+    @(Html.Kendo().Grid<TBLKhoa>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(k => k.Makhoa).Title("Mã khoa");
+        columns.Bound(k => k.Tenkhoa).Title("Tên khoa");
+        columns.Bound(k => k.Dienthoai).Title("Điện thoại");
+        columns.Bound(k => k.Makhoa)
+       .Title("Actions")
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Edit</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Delete</a>");
+
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .Read(read => read.Action(action, controllerName)))
+    .Pageable()
+    .Scrollable(scroll => scroll.Height("auto"))
+    .Sortable().Selectable()
+    )
+</main>

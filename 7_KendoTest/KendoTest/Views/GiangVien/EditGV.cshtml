@@ -1,0 +1,38 @@
+﻿@model KendoTest.Models.TBLGiangVien
+@{
+    ViewBag.Title = "EditGV";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var lst = ViewBag.ListKhoa;
+}
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="k-w-300">
+        @using (Html.BeginForm("EditGV", "GiangVien", FormMethod.Post))
+        {
+                    @Html.HiddenFor(x => x.Magv)
+            <div class="row">
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Họ tên</label>
+                    </div>
+                    @Html.TextBoxFor(x => x.Hotengv, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Lương</label>
+                    </div>
+                    @Html.TextBoxFor(x => x.Luong, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Mã khoa</label>
+                    </div>
+                    @Html.DropDownListFor(x => x.Makhoa, (IEnumerable<SelectListItem>)ViewBag.ListKhoa, "Chọn mã khoa", new { @class = "btn btn-primary" })
+                </div>
+
+            </div>
+            <br />
+            <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
+
+        }
+    </div>
+</div>

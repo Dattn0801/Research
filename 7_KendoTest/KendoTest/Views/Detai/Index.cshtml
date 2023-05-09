@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Đề tài";
+}
+<div class="row mt-1 mb-1 ">
+    <div class="col">
+        <div class="float-lg-end">
+            @Html.ActionLink("Tạo", "CreateDT", "Detai", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
+<main>
+    @using Kendo.Mvc;
+    @using Kendo.Mvc.UI;
+    @using Kendo.Mvc.UI.Fluent;
+    @using KendoTest.Models;
+    @{
+        var thuctap = Model;
+        ViewBag.Title = "Detai";
+        string action = "LoadList";
+        string controllerName = "Detai";
+    }
+
+    @(Html.Kendo().Grid<TBLDeTai>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(k => k.Madt).Title("Mã đề tài");
+        columns.Bound(k => k.Tendt).Title("Tên đề tài");
+        columns.Bound(k => k.Kinhphi).Title("Kinh phí");
+        columns.Bound(k => k.Noithuctap).Title("Nơi thực tập");
+        columns.Bound(k => k.Madt)
+       .Title("Actions")
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditDT", "Detai") + "?maDT=#=Madt#'" + ">Edit</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteDT", "Detai") + "?maDT=#=Madt#'" + ">Delete</a>");
+
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .Read(read => read.Action(action, controllerName)))
+    .Pageable()
+    .Scrollable(scroll => scroll.Height("auto"))
+    .Sortable().Selectable()
+    )
+</main>

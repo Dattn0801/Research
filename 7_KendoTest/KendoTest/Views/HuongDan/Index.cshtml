@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "HuongDAN THUCTAP";
+}
+<div class="row mt-1 mb-1 ">
+    <div class="col">
+        <div class="float-lg-end">
+            @Html.ActionLink("Tạo", "CreateHD", "HuongDan", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+
+</div>
+<main>
+    @using Kendo.Mvc;
+    @using Kendo.Mvc.UI;
+    @using Kendo.Mvc.UI.Fluent;
+    @using KendoTest.Models;
+    @{
+        var thuctap = Model;
+        ViewBag.Title = "HuongDan";
+        string action = "LoadList";
+        string controllerName = "HuongDan";
+    }
+
+    @(Html.Kendo().Grid<KendoTest.ViewModel.HuongDanViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Tensv).Title("Tên sinh viên");
+        columns.Bound(x => x.Tengv).Title("Tên giảng viên");
+        columns.Bound(x => x.Tendt).Title("Tên đề tài");
+        columns.Bound(x => x.KetQua).Title("Kết quả");
+        columns.Bound(x => x.Id).Title("Actions")
+        .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditHD", "HuongDan") + "?maHD=#=Id#'" + ">Edit</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteHD", "HuongDan") + "?maHD=#=Id#'" + ">Delete</a>");
+
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .Read(read => read.Action(action, controllerName)))
+    .Pageable()
+    .Scrollable(scroll => scroll.Height("auto"))
+    .Sortable().Selectable()
+    )
+</main>

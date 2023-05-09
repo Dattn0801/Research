@@ -28,8 +28,8 @@ namespace KendoTest.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TBLDeTai> TBLDeTais { get; set; }
         public virtual DbSet<TBLGiangVien> TBLGiangViens { get; set; }
-        public virtual DbSet<TBLHuongDan> TBLHuongDans { get; set; }
         public virtual DbSet<TBLKhoa> TBLKhoas { get; set; }
         public virtual DbSet<TBLSinhVien> TBLSinhViens { get; set; }
+        public virtual DbSet<TBLHuongDan> TBLHuongDans { get; set; }
     }
 }

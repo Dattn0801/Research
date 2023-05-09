@@ -14,6 +14,12 @@ namespace KendoTest.Models
     
     public partial class TBLSinhVien
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TBLSinhVien()
+        {
+            this.TBLHuongDans = new HashSet<TBLHuongDan>();
+        }
+    
         public int Masv { get; set; }
         public string Hotensv { get; set; }
         public string Makhoa { get; set; }
@@ -21,5 +27,7 @@ namespace KendoTest.Models
         public string Quequan { get; set; }
     
         public virtual TBLKhoa TBLKhoa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBLHuongDan> TBLHuongDans { get; set; }
     }
 }

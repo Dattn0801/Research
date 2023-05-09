@@ -1,0 +1,37 @@
+﻿
+
+.btn {
+    background-color: #070670;
+    color: #fff;
+}
+
+    .btn:hover {
+        color: #070670;
+        background-color: #fff;
+        border-color: #070670;
+    }
+
+.edit-button,
+.delete-button {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .edit-button:hover,
+    .delete-button:hover {
+        background-color: #0069d9;
+    }
+
+    .edit-button:focus,
+    .delete-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+    }

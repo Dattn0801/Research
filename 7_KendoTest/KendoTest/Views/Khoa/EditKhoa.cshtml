@@ -1,0 +1,53 @@
+﻿@model KendoTest.Models.TBLKhoa
+@{
+    var Khoa = Model;
+    ViewBag.Title = "EditKhoa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="k-w-300">      
+        @Html.HiddenFor(x => x.Makhoa)
+        <div class="row">
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Tên khoa</label>
+                </div>
+                @Html.TextBoxFor(x => x.Tenkhoa, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Tên khoa</label>
+                </div>
+                @Html.TextBoxFor(x => x.Dienthoai, new { @class = "form-control" })
+            </div>           
+        </div>
+        <br />
+        <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
+    </div>
+</div>
+<script>$("#submit").click(function () {
+    var Makhoa = $('#Makhoa').val();
+    var Tenkhoa = $('#Tenkhoa').val().trim();
+    var Dienthoai = $('#Dienthoai').val().trim();
+       
+        debugger;
+
+        $.ajax({
+            type: "POST",
+            url: "/Khoa/EditKhoa",
+            data: {
+                Makhoa: Makhoa,
+                Tenkhoa: Tenkhoa,
+                Dienthoai: Dienthoai,
+            },
+            success: function (response) {
+                if (response != null) {
+                    console.log('ok')
+                    location.href = "/Khoa/Index"
+                } else {
+                    console.log('sth wrong ')
+                }
+            },
+        });
+    });</script>
+

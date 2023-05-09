@@ -35,9 +35,10 @@
         </EntityType>
         <EntityType Name="TBLHuongDan">
           <Key>
-            <PropertyRef Name="Masv" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Masv" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Masv" Type="int" />
           <Property Name="Madt" Type="char" MaxLength="10" />
           <Property Name="Magv" Type="int" />
           <Property Name="KetQua" Type="decimal" Precision="5" Scale="2" />
@@ -72,7 +73,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TBLHuongDa__Madt__45F365D3">
+        <Association Name="FK__TBLHuongDa__Madt__571DF1D5">
           <End Role="TBLDeTai" Type="Self.TBLDeTai" Multiplicity="0..1" />
           <End Role="TBLHuongDan" Type="Self.TBLHuongDan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -84,7 +85,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TBLHuongDa__Magv__46E78A0C">
+        <Association Name="FK__TBLHuongDa__Magv__5812160E">
           <End Role="TBLGiangVien" Type="Self.TBLGiangVien" Multiplicity="0..1" />
           <End Role="TBLHuongDan" Type="Self.TBLHuongDan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -93,6 +94,18 @@
             </Principal>
             <Dependent Role="TBLHuongDan">
               <PropertyRef Name="Magv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TBLHuongDa__Masv__59063A47">
+          <End Role="TBLSinhVien" Type="Self.TBLSinhVien" Multiplicity="0..1" />
+          <End Role="TBLHuongDan" Type="Self.TBLHuongDan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLSinhVien">
+              <PropertyRef Name="Masv" />
+            </Principal>
+            <Dependent Role="TBLHuongDan">
+              <PropertyRef Name="Masv" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -119,12 +132,16 @@
             <End Role="TBLKhoa" EntitySet="TBLKhoa" />
             <End Role="TBLGiangVien" EntitySet="TBLGiangVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__TBLHuongDa__Madt__45F365D3" Association="Self.FK__TBLHuongDa__Madt__45F365D3">
+          <AssociationSet Name="FK__TBLHuongDa__Madt__571DF1D5" Association="Self.FK__TBLHuongDa__Madt__571DF1D5">
             <End Role="TBLDeTai" EntitySet="TBLDeTai" />
             <End Role="TBLHuongDan" EntitySet="TBLHuongDan" />
           </AssociationSet>
-          <AssociationSet Name="FK__TBLHuongDa__Magv__46E78A0C" Association="Self.FK__TBLHuongDa__Magv__46E78A0C">
+          <AssociationSet Name="FK__TBLHuongDa__Magv__5812160E" Association="Self.FK__TBLHuongDa__Magv__5812160E">
             <End Role="TBLGiangVien" EntitySet="TBLGiangVien" />
+            <End Role="TBLHuongDan" EntitySet="TBLHuongDan" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TBLHuongDa__Masv__59063A47" Association="Self.FK__TBLHuongDa__Masv__59063A47">
+            <End Role="TBLSinhVien" EntitySet="TBLSinhVien" />
             <End Role="TBLHuongDan" EntitySet="TBLHuongDan" />
           </AssociationSet>
           <AssociationSet Name="FK__TBLSinhVi__Makho__4222D4EF" Association="Self.FK__TBLSinhVi__Makho__4222D4EF">
@@ -154,7 +171,7 @@
           <Property Name="Tendt" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
           <Property Name="Kinhphi" Type="Int32" />
           <Property Name="Noithuctap" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="TBLHuongDans" Relationship="Self.FK__TBLHuongDa__Madt__412EB0B6" FromRole="TBLDeTai" ToRole="TBLHuongDan" />
+          <NavigationProperty Name="TBLHuongDans" Relationship="ThucTapModel.FK__TBLHuongDa__Madt__45F365D3" FromRole="TBLDeTai" ToRole="TBLHuongDan" />
         </EntityType>
         <EntityType Name="TBLGiangVien">
           <Key>
@@ -165,18 +182,7 @@
           <Property Name="Luong" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="Makhoa" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="TBLKhoa" Relationship="Self.FK__TBLGiangV__Makho__398D8EEE" FromRole="TBLGiangVien" ToRole="TBLKhoa" />
-          <NavigationProperty Name="TBLHuongDans" Relationship="Self.FK__TBLHuongDa__Magv__4222D4EF" FromRole="TBLGiangVien" ToRole="TBLHuongDan" />
-        </EntityType>
-        <EntityType Name="TBLHuongDan">
-          <Key>
-            <PropertyRef Name="Masv" />
-          </Key>
-          <Property Name="Masv" Type="Int32" Nullable="false" />
-          <Property Name="Madt" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="Magv" Type="Int32" />
-          <Property Name="KetQua" Type="Decimal" Precision="5" Scale="2" />
-          <NavigationProperty Name="TBLDeTai" Relationship="Self.FK__TBLHuongDa__Madt__412EB0B6" FromRole="TBLHuongDan" ToRole="TBLDeTai" />
-          <NavigationProperty Name="TBLGiangVien" Relationship="Self.FK__TBLHuongDa__Magv__4222D4EF" FromRole="TBLHuongDan" ToRole="TBLGiangVien" />
+          <NavigationProperty Name="TBLHuongDans" Relationship="ThucTapModel.FK__TBLHuongDa__Magv__46E78A0C" FromRole="TBLGiangVien" ToRole="TBLHuongDan" />
         </EntityType>
         <EntityType Name="TBLKhoa">
           <Key>
@@ -188,18 +194,6 @@
           <NavigationProperty Name="TBLGiangViens" Relationship="Self.FK__TBLGiangV__Makho__398D8EEE" FromRole="TBLKhoa" ToRole="TBLGiangVien" />
           <NavigationProperty Name="TBLSinhViens" Relationship="ThucTapModel.FK__TBLSinhVi__Makho__4222D4EF" FromRole="TBLKhoa" ToRole="TBLSinhVien" />
         </EntityType>
-        <Association Name="FK__TBLHuongDa__Madt__412EB0B6">
-          <End Role="TBLDeTai" Type="Self.TBLDeTai" Multiplicity="0..1" />
-          <End Role="TBLHuongDan" Type="Self.TBLHuongDan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLDeTai">
-              <PropertyRef Name="Madt" />
-            </Principal>
-            <Dependent Role="TBLHuongDan">
-              <PropertyRef Name="Madt" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TBLGiangV__Makho__398D8EEE">
           <End Role="TBLKhoa" Type="Self.TBLKhoa" Multiplicity="0..1" />
           <End Role="TBLGiangVien" Type="Self.TBLGiangVien" Multiplicity="*" />
@@ -212,40 +206,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TBLHuongDa__Magv__4222D4EF">
-          <End Role="TBLGiangVien" Type="Self.TBLGiangVien" Multiplicity="0..1" />
-          <End Role="TBLHuongDan" Type="Self.TBLHuongDan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLGiangVien">
-              <PropertyRef Name="Magv" />
-            </Principal>
-            <Dependent Role="TBLHuongDan">
-              <PropertyRef Name="Magv" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ThucTapEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TBLDeTais" EntityType="Self.TBLDeTai" />
           <EntitySet Name="TBLGiangViens" EntityType="Self.TBLGiangVien" />
-          <EntitySet Name="TBLHuongDans" EntityType="Self.TBLHuongDan" />
           <EntitySet Name="TBLKhoas" EntityType="Self.TBLKhoa" />
-          <AssociationSet Name="FK__TBLHuongDa__Madt__412EB0B6" Association="Self.FK__TBLHuongDa__Madt__412EB0B6">
-            <End Role="TBLDeTai" EntitySet="TBLDeTais" />
-            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
-          </AssociationSet>
           <AssociationSet Name="FK__TBLGiangV__Makho__398D8EEE" Association="Self.FK__TBLGiangV__Makho__398D8EEE">
             <End Role="TBLKhoa" EntitySet="TBLKhoas" />
             <End Role="TBLGiangVien" EntitySet="TBLGiangViens" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TBLHuongDa__Magv__4222D4EF" Association="Self.FK__TBLHuongDa__Magv__4222D4EF">
-            <End Role="TBLGiangVien" EntitySet="TBLGiangViens" />
-            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
           </AssociationSet>
           <EntitySet Name="TBLSinhViens" EntityType="ThucTapModel.TBLSinhVien" />
           <AssociationSet Name="FK__TBLSinhVi__Makho__4222D4EF" Association="ThucTapModel.FK__TBLSinhVi__Makho__4222D4EF">
             <End Role="TBLKhoa" EntitySet="TBLKhoas" />
             <End Role="TBLSinhVien" EntitySet="TBLSinhViens" />
+          </AssociationSet>
+          <EntitySet Name="TBLHuongDans" EntityType="ThucTapModel.TBLHuongDan" />
+          <AssociationSet Name="FK__TBLHuongDa__Madt__45F365D3" Association="ThucTapModel.FK__TBLHuongDa__Madt__45F365D3">
+            <End Role="TBLDeTai" EntitySet="TBLDeTais" />
+            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TBLHuongDa__Magv__46E78A0C" Association="ThucTapModel.FK__TBLHuongDa__Magv__46E78A0C">
+            <End Role="TBLGiangVien" EntitySet="TBLGiangViens" />
+            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TBLHuongDa__Masv__59063A47" Association="ThucTapModel.FK__TBLHuongDa__Masv__59063A47">
+            <End Role="TBLSinhVien" EntitySet="TBLSinhViens" />
+            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="TBLSinhVien">
@@ -258,6 +244,7 @@
           <Property Name="Namsinh" Type="Int32" />
           <Property Name="Quequan" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="TBLKhoa" Relationship="ThucTapModel.FK__TBLSinhVi__Makho__4222D4EF" FromRole="TBLSinhVien" ToRole="TBLKhoa" />
+          <NavigationProperty Name="TBLHuongDans" Relationship="ThucTapModel.FK__TBLHuongDa__Masv__59063A47" FromRole="TBLSinhVien" ToRole="TBLHuongDan" />
         </EntityType>
         <Association Name="FK__TBLSinhVi__Makho__4222D4EF">
           <End Type="ThucTapModel.TBLKhoa" Role="TBLKhoa" Multiplicity="0..1" />
@@ -268,6 +255,55 @@
             </Principal>
             <Dependent Role="TBLSinhVien">
               <PropertyRef Name="Makhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBLHuongDan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Masv" Type="Int32" />
+          <Property Name="Madt" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Magv" Type="Int32" />
+          <Property Name="KetQua" Type="Decimal" Precision="5" Scale="2" />
+          <NavigationProperty Name="TBLDeTai" Relationship="ThucTapModel.FK__TBLHuongDa__Madt__45F365D3" FromRole="TBLHuongDan" ToRole="TBLDeTai" />
+          <NavigationProperty Name="TBLGiangVien" Relationship="ThucTapModel.FK__TBLHuongDa__Magv__46E78A0C" FromRole="TBLHuongDan" ToRole="TBLGiangVien" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="TBLSinhVien" Relationship="ThucTapModel.FK__TBLHuongDa__Masv__59063A47" FromRole="TBLHuongDan" ToRole="TBLSinhVien" />
+        </EntityType>
+        <Association Name="FK__TBLHuongDa__Madt__45F365D3">
+          <End Type="ThucTapModel.TBLDeTai" Role="TBLDeTai" Multiplicity="0..1" />
+          <End Type="ThucTapModel.TBLHuongDan" Role="TBLHuongDan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLDeTai">
+              <PropertyRef Name="Madt" />
+            </Principal>
+            <Dependent Role="TBLHuongDan">
+              <PropertyRef Name="Madt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TBLHuongDa__Magv__46E78A0C">
+          <End Type="ThucTapModel.TBLGiangVien" Role="TBLGiangVien" Multiplicity="0..1" />
+          <End Type="ThucTapModel.TBLHuongDan" Role="TBLHuongDan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLGiangVien">
+              <PropertyRef Name="Magv" />
+            </Principal>
+            <Dependent Role="TBLHuongDan">
+              <PropertyRef Name="Magv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TBLHuongDa__Masv__59063A47">
+          <End Type="ThucTapModel.TBLSinhVien" Role="TBLSinhVien" Multiplicity="0..1" />
+          <End Type="ThucTapModel.TBLHuongDan" Role="TBLHuongDan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLSinhVien">
+              <PropertyRef Name="Masv" />
+            </Principal>
+            <Dependent Role="TBLHuongDan">
+              <PropertyRef Name="Masv" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -308,16 +344,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBLHuongDans">
-            <EntityTypeMapping TypeName="ThucTapModel.TBLHuongDan">
-              <MappingFragment StoreEntitySet="TBLHuongDan">
-                <ScalarProperty Name="Masv" ColumnName="Masv" />
-                <ScalarProperty Name="Madt" ColumnName="Madt" />
-                <ScalarProperty Name="Magv" ColumnName="Magv" />
-                <ScalarProperty Name="KetQua" ColumnName="KetQua" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBLKhoas">
             <EntityTypeMapping TypeName="ThucTapModel.TBLKhoa">
               <MappingFragment StoreEntitySet="TBLKhoa">
@@ -334,6 +360,17 @@
                 <ScalarProperty Name="Namsinh" ColumnName="Namsinh" />
                 <ScalarProperty Name="Makhoa" ColumnName="Makhoa" />
                 <ScalarProperty Name="Hotensv" ColumnName="Hotensv" />
+                <ScalarProperty Name="Masv" ColumnName="Masv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLHuongDans">
+            <EntityTypeMapping TypeName="ThucTapModel.TBLHuongDan">
+              <MappingFragment StoreEntitySet="TBLHuongDan">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="KetQua" ColumnName="KetQua" />
+                <ScalarProperty Name="Magv" ColumnName="Magv" />
+                <ScalarProperty Name="Madt" ColumnName="Madt" />
                 <ScalarProperty Name="Masv" ColumnName="Masv" />
               </MappingFragment>
             </EntityTypeMapping>

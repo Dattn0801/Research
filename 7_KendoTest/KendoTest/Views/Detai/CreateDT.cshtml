@@ -1,0 +1,44 @@
+﻿@model KendoTest.Models.TBLDeTai
+@{
+    ViewBag.Title = "CreateDetai";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="k-w-300">
+        @using (Html.BeginForm("CreateDT", "Detai", FormMethod.Post))
+        {
+            @*@Html.HiddenFor(x => x.Makhoa)*@
+        <div class="row">
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Mã đề tài</label>
+                </div>
+                @Html.TextBoxFor(x => x.Madt, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Tên đề tài</label>
+                </div>
+                @Html.TextBoxFor(x => x.Tendt, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Kinh phí</label>
+                </div>
+                @Html.TextBoxFor(x => x.Kinhphi, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Nơi thực tập</label>
+                </div>
+                @Html.TextBoxFor(x => x.Noithuctap, new { @class = "form-control" })
+            </div>
+        </div>
+            <br />
+            <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
+
+        }
+        @*<button type="submit" id="submit">Tạo</button>*@
+
+    </div>
+</div>

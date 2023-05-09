@@ -1,0 +1,47 @@
+﻿@model KendoTest.Models.TBLHuongDan
+@{
+    ViewBag.Title = "CreateSv";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    var ListSV = ViewBag.ListSV;
+    var ListGV = ViewBag.ListGV;
+    var ListDT = ViewBag.ListDT;
+
+}
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="k-w-300">
+        @using (Html.BeginForm("EditHD", "HuongDan", FormMethod.Post))
+        {
+
+            <div class="row">
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Họ tên</label>
+                    </div>
+                    @Html.DropDownListFor(x => x.Masv, (IEnumerable<SelectListItem>)ViewBag.ListSV, "Chọn sinh viên", new { @class = "form-control" })
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Đề tài</label>
+                    </div>
+                    @Html.DropDownListFor(x => x.Madt, (IEnumerable<SelectListItem>)ViewBag.ListDT, "Chọn đề tài", new { @class = "form-control" })
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Giảng viên</label>
+                    </div>
+                    @Html.DropDownListFor(x => x.Magv, (IEnumerable<SelectListItem>)ViewBag.ListGV, "Chọn giảng viên", new { @class = "form-control" })
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Kết quả</label>
+                    </div>
+                    @Html.TextBoxFor(x => x.KetQua, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
+
+        }
+    </div>
+</div>
