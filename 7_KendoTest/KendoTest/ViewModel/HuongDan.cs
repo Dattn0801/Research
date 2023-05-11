@@ -13,7 +13,6 @@ namespace KendoTest.ViewModel
         public string Tensv { get; set; }
         public string Tendt { get; set; }
         public string Tengv { get; set; }
-
         public string Madt { get; set; }
         public Nullable<int> Magv { get; set; }
         public Nullable<decimal> KetQua { get; set; }

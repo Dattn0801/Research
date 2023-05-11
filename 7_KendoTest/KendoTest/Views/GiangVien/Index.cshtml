@@ -3,8 +3,11 @@
 }
 <div class="row mt-1 mb-1 ">
     <div class="col">
+        <h5>
+            Danh sách giảng viên
+        </h5>
         <div class="float-lg-end">
-            @Html.ActionLink("Tạo", "CreateGV", "GiangVien", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Thêm", "CreateGV", "GiangVien", null, new { @class = "btn btn-primary" })
         </div>
     </div>
 </div>
@@ -19,16 +22,17 @@
         string action = "LoadList";
         string controllerName = "GiangVien";
     }
-    @(Html.Kendo().Grid<TBLGiangVien>()
+    @(Html.Kendo().Grid<KendoTest.ViewModel.GiangVienViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
+        columns.Bound(x => x.Magv).Title("Mã");
         columns.Bound(x => x.Hotengv).Title("Họ tên");
         columns.Bound(x => x.Luong).Title("Lương");
-        columns.Bound(x => x.Makhoa).Title("Mã khoa");
+        columns.Bound(x => x.Tenkhoa).Title("Tên khoa");
         columns.Bound(x => x.Magv)
-       .Title("Actions")
-       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditGV", "GiangVien") + "?maGV=#=Magv#'" + ">Edit</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteGV", "GiangVien") + "?maGV=#=Magv#'" + ">Delete</a>");
+       .Title("")
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditGV", "GiangVien") + "?maGV=#=Magv#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteGV", "GiangVien") + "?maGV=#=Magv#'" + ">Xóa</a>");
 
     })
     .DataSource(dataSource => dataSource

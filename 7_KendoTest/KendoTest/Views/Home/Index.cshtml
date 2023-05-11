@@ -1,46 +1,102 @@
-﻿@{
+﻿@model KendoTest.Models.TBLSinhVien
+@using Kendo.Mvc;
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.UI.Fluent;
+@using KendoTest.Models;
+@{
     ViewBag.Title = "Home Page";
+    string action = "LoadListSv";
+    string controllerName = "Home";
 }
 <div class="row mt-1 mb-1 ">
     <div class="col">
+        <h5>Danh sách sinh viên</h5>
         <div class="float-lg-end">
-            @Html.ActionLink("Tạo", "CreateSV", "Home", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Thêm", "CreateSV", "Home", null, new { @class = "btn btn-primary" })
         </div>
     </div>
 </div>
-<main>
-    @using Kendo.Mvc;
-    @using Kendo.Mvc.UI;
-    @using Kendo.Mvc.UI.Fluent;
-    @using KendoTest.Models;
-    @{
-        var thuctap = Model;
-        ViewBag.Title = "Home Page";
-        string action = "LoadListSv";
-        string controllerName = "Home";
+<script>
+    function filter() {
+        return {
+            hoTenSinhVien: $("#hoTenSinhVien").val(),
+            namSinh: $("#namSinh").val(),
+            queQuan: $("#queQuan").val(),
+            tenKhoa: $("#Tenkhoa").val(),
+            Makhoa: $("#Makhoa").val()
+        }
     }
+</script>
+
+<main>
+    <div class="row">
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Họ tên</label>
+                @Html.TextBox("hoTenSinhVien", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Năm sinh</label>
+                @Html.TextBox("namSinh", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Quê quán</label>
+                @Html.TextBox("queQuan", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Khoa</label>
+                @Html.DropDownListFor(x => x.Makhoa, ViewBag.ListKhoa as SelectList, "Chọn", new { @class = "form-control" })
+            </div>
+        </div>
+        <p>
+            <input id="btnSearch" type="submit" value="Search" />
+        </p>
+    </div>
+    @*<p>
+            Họ tên: @Html.TextBox("hoTenSinhVien")
+        </p>
+        <p>
+            Năm sinh: @Html.TextBox("namSinh")
+        </p>
+        <p>
+            Quê quán: @Html.TextBox("queQuan")
+        </p>*@
 
 
-
-    @(Html.Kendo().Grid<TBLSinhVien>()
+    @(Html.Kendo().Grid<KendoTest.ViewModel.SinhVienViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(sv => sv.Hotensv).Title("Họ tên sv");
+        columns.Bound(sv => sv.Masv).Title("Mã");
+        columns.Bound(sv => sv.Hotensv).Title("Họ tên");
         columns.Bound(sv => sv.Namsinh).Title("Năm sinh");
         columns.Bound(sv => sv.Quequan).Title("Quê quán");
-        columns.Bound(sv => sv.Makhoa).Title("Mã khoa");
+        columns.Bound(sv => sv.Tenkhoa).Title("Khoa");
         columns.Bound(sv => sv.Masv)
-       .Title("Actions")
-       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditSv", "Home") + "?maSv=#=Masv#'" + ">Edit</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteSv", "Home") + "?maSv=#=Masv#'" + ">Delete</a>");
-
+       .Title("")
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditSv", "Home") + "?maSv=#=Masv#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteSv", "Home") + "?maSv=#=Masv#'" + ">Xóa</a>");
     })
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(10)
-        .Read(read => read.Action(action, controllerName)))
+        .Read(read => read.Action(action, controllerName).Data("filter")))
     .Pageable()
     .Scrollable(scroll => scroll.Height("auto"))
     .Sortable().Selectable()
     )
 </main>
+
+<script>
+    $("#btnSearch").click(function () {
+        var grid = $("#grid").data('kendoGrid');
+        grid.dataSource.read()
+    })
+</script>
+
+

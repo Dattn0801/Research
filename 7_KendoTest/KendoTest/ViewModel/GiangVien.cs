@@ -12,6 +12,7 @@ namespace KendoTest.ViewModel
         public string Hotengv { get; set; }
         public Nullable<decimal> Luong { get; set; }
         public string Makhoa { get; set; }
+        public string Tenkhoa { get; set; }
 
         public virtual TBLKhoa TBLKhoa { get; set; }
         public virtual ICollection<TBLHuongDan> TBLHuongDans { get; set; }

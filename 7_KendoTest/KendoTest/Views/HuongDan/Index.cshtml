@@ -3,6 +3,7 @@
 }
 <div class="row mt-1 mb-1 ">
     <div class="col">
+        <h5>Hướng dẫn đề tài</h5>
         <div class="float-lg-end">
             @Html.ActionLink("Tạo", "CreateHD", "HuongDan", null, new { @class = "btn btn-primary" })
         </div>
@@ -29,8 +30,8 @@
         columns.Bound(x => x.Tengv).Title("Tên giảng viên");
         columns.Bound(x => x.Tendt).Title("Tên đề tài");
         columns.Bound(x => x.KetQua).Title("Kết quả");
-        columns.Bound(x => x.Id).Title("Actions")
-        .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditHD", "HuongDan") + "?maHD=#=Id#'" + ">Edit</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteHD", "HuongDan") + "?maHD=#=Id#'" + ">Delete</a>");
+        columns.Bound(x => x.Id).Title("")
+        .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditHD", "HuongDan") + "?maHD=#=Id#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteHD", "HuongDan") + "?maHD=#=Id#'" + ">Xóa</a>");
 
     })
     .DataSource(dataSource => dataSource

@@ -3,8 +3,12 @@
 }
 <div class="row mt-1 mb-1 ">
     <div class="col">
+        <h5>Danh sách khoa</h5>
+        <div class="float-lg-start">
+
+        </div>
         <div class="float-lg-end">
-            @Html.ActionLink("Tạo", "CreateKhoa", "Khoa", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Thêm", "CreateKhoa", "Khoa", null, new { @class = "btn btn-primary" })
         </div>
     </div>
 
@@ -29,8 +33,8 @@
         columns.Bound(k => k.Tenkhoa).Title("Tên khoa");
         columns.Bound(k => k.Dienthoai).Title("Điện thoại");
         columns.Bound(k => k.Makhoa)
-       .Title("Actions")
-       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Edit</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Delete</a>");
+       .Title("")
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Xóa</a>");
 
     })
     .DataSource(dataSource => dataSource

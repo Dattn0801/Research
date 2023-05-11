@@ -3,12 +3,22 @@
     ViewBag.Title = "EditGV";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var lst = ViewBag.ListKhoa;
+    //var Actioname = "EditGV";
+    //if (ViewBag.IsAdd)
+    //{
+    //    Actioname = "AddGV";
+    // }
 }
 <div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="row mt-1 mb-1 ">
+        <div class="col">
+            <h5>Chỉnh sửa giảng viên</h5>
+        </div>
+    </div>
     <div class="k-w-300">
         @using (Html.BeginForm("EditGV", "GiangVien", FormMethod.Post))
         {
-                    @Html.HiddenFor(x => x.Magv)
+            @Html.HiddenFor(x => x.Magv)
             <div class="row">
                 <div class="form-group col-3">
                     <div class="form-label">
@@ -24,9 +34,9 @@
                 </div>
                 <div class="form-group col-3">
                     <div class="form-label">
-                        <label>Mã khoa</label>
+                        <label>Khoa</label>
                     </div>
-                    @Html.DropDownListFor(x => x.Makhoa, (IEnumerable<SelectListItem>)ViewBag.ListKhoa, "Chọn mã khoa", new { @class = "btn btn-primary" })
+                    @Html.DropDownListFor(x => x.Makhoa, (IEnumerable<SelectListItem>)ViewBag.ListKhoa, new { @class = "btn btn-primary" })
                 </div>
 
             </div>

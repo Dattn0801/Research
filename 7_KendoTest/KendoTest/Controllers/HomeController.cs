@@ -15,17 +15,20 @@ namespace KendoTest.Controllers
     public class HomeController : Controller
     {
         SinhVienService svService = new SinhVienService();
+        ThucTapEntities ctx = new ThucTapEntities();
         public ActionResult Index()
         {
+            var listKhoa = svService.ListKhoa();
+            ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
             return View();
         }
-
-        public ActionResult LoadListSv([DataSourceRequest] DataSourceRequest request)
+     
+        public ActionResult LoadListSv([DataSourceRequest] DataSourceRequest request, string hoTenSinhVien, int? namSinh, string queQuan, string TenKhoa, string Makhoa)
         {
-            var listSV = svService.loadSinhVien();
+            var listSV = svService.loadSinhVien(hoTenSinhVien, namSinh, queQuan, TenKhoa, Makhoa);
             return Json(listSV.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
+       
         public ActionResult EditSv(int? maSv)
         {
             var editSv = svService.getSinhVien(maSv);

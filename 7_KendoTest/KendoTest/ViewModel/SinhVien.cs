@@ -10,6 +10,7 @@ namespace KendoTest.ViewModel
         public int Masv { get; set; }
         public string Hotensv { get; set; }
         public string Makhoa { get; set; }
+        public string Tenkhoa { get; set; }
         public Nullable<int> Namsinh { get; set; }
         public string Quequan { get; set; }
     }

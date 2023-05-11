@@ -18,12 +18,14 @@ namespace KendoTest.Services
             {
                 foreach (var item in lst)
                 {
+                    var gv = ctx.TBLKhoas.FirstOrDefault( x =>x.Makhoa == item.Makhoa);
                     k.Add(new GiangVienViewModel()
                     {
                         Magv = item.Magv,
                         Hotengv = item.Hotengv,
                         Luong = item.Luong,                     
-                        Makhoa = item.Makhoa,                      
+                        Makhoa = item.Makhoa,   
+                        Tenkhoa = gv.Tenkhoa,
                     });
                 }
             }

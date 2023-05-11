@@ -5,6 +5,11 @@
     var lst = ViewBag.ListKhoa;
 }
 <div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="row mt-1 mb-1 ">
+        <div class="col">
+            <h5>Thêm giảng viên</h5>
+        </div>
+    </div>
     <div class="k-w-300">
         @using (Html.BeginForm("CreateGV", "GiangVien", FormMethod.Post))
         {
@@ -14,7 +19,7 @@
                     <div class="form-label">
                         <label>Họ tên</label>
                     </div>
-                    @Html.TextBoxFor(x => x .Hotengv, new { @class = "form-control" })
+                    @Html.TextBoxFor(x => x.Hotengv, new { @class = "form-control" })
                 </div>
                 <div class="form-group col-3">
                     <div class="form-label">
@@ -24,11 +29,11 @@
                 </div>
                 <div class="form-group col-3">
                     <div class="form-label">
-                        <label>Mã khoa</label>
+                        <label>Khoa</label>
                     </div>
-                    @Html.DropDownListFor(x => x.Makhoa, (IEnumerable<SelectListItem>)ViewBag.ListKhoa, "Chọn mã khoa", new { @class = "btn btn-primary" })
+                    @Html.DropDownListFor(x => x.Makhoa, (IEnumerable<SelectListItem>)ViewBag.ListKhoa, "Chọn khoa", new { @class = "btn btn-primary" })
                 </div>
-               
+
             </div>
             <br />
             <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
