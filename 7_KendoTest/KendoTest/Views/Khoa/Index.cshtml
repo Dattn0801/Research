@@ -1,48 +1,101 @@
-﻿@{
+﻿@using Kendo.Mvc;
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.UI.Fluent;
+@using KendoTest.Models;
+@{
+    var thuctap = Model;
     ViewBag.Title = "Khoa";
+    string action = "LoadListKhoa";
+    string controllerName = "Khoa";
 }
-<div class="row mt-1 mb-1 ">
-    <div class="col">
-        <h5>Danh sách khoa</h5>
-        <div class="float-lg-start">
-
-        </div>
-        <div class="float-lg-end">
-            @Html.ActionLink("Thêm", "CreateKhoa", "Khoa", null, new { @class = "btn btn-primary" })
-        </div>
-    </div>
-
-</div>
-<main>
-    @using Kendo.Mvc;
-    @using Kendo.Mvc.UI;
-    @using Kendo.Mvc.UI.Fluent;
-    @using KendoTest.Models;
-    @{
-        var thuctap = Model;
-        ViewBag.Title = "Khoa";
-        string action = "LoadListKhoa";
-        string controllerName = "Khoa";
+<script>
+    function filter() {
+        return {
+            maKhoa: $("#maKhoa").val(),
+            tenKhoa: $("#tenKhoa").val(),
+            soDienThoai: $("#soDienThoai").val(),        
+        }
     }
+</script>
+<style>
+    th.k-header {
+        text-align: center !important;
+    }
+</style>
+<main>
+    <div class="row mt-1 mb-1 ">
+        <div class="col">
+            <h5>Danh sách khoa</h5>
+            <div class="float-lg-start">
 
+            </div>
+            <div class="float-lg-end">
+                @Html.ActionLink("Thêm", "CreateKhoa", "Khoa", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Mã khoa</label>
+                @Html.TextBox("maKhoa", "Geo", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Tên khoa</label>
+                @Html.TextBox("tenKhoa", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Số điện thoại</label>
+                @Html.TextBox("soDienThoai", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <p>
+            <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" />
+        </p>
+    </div>
     @(Html.Kendo().Grid<TBLKhoa>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(k => k.Makhoa).Title("Mã khoa");
-        columns.Bound(k => k.Tenkhoa).Title("Tên khoa");
-        columns.Bound(k => k.Dienthoai).Title("Điện thoại");
+        columns.Bound(k => k.Makhoa).Title("Mã khoa").HtmlAttributes(new { style = "text-align: center" });
+        columns.Bound(k => k.Tenkhoa).Title("Tên khoa").HtmlAttributes(new { style = "text-align: center" });
+        columns.Bound(k => k.Dienthoai).Format("{0:#,###}").Title("Điện thoại").HtmlAttributes(new { style = "text-align: center" });
         columns.Bound(k => k.Makhoa)
        .Title("")
-       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Xóa</a>");
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteKhoa", "Khoa") + "?maKhoa=#=Makhoa#'" + ">Xóa</a>").HtmlAttributes(new { style = "text-align: center" });
 
     })
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(10)
-        .Read(read => read.Action(action, controllerName)))
+        .Read(read => read.Action(action, controllerName).Data("filter")))
     .Pageable()
     .Scrollable(scroll => scroll.Height("auto"))
     .Sortable().Selectable()
     )
 </main>
+
+
+<script>
+    $("#btnSearch").click(function () {
+        $.ajax({
+            url: "/Khoa/LoadListKhoa",
+            type: "POST",
+            data: filter(),
+            success: function (data) {
+                if (data.Error == "01") {
+                    alert(data.Message);
+                }
+                var grid = $("#grid").data('kendoGrid');
+                grid.dataSource.read()
+            }
+        })
+    })
+</script>
+

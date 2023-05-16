@@ -1,6 +1,24 @@
-﻿@{
-    ViewBag.Title = "HuongDAN THUCTAP";
+﻿@model KendoTest.Models.TBLHuongDan
+@using Kendo.Mvc;
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.UI.Fluent;
+@using KendoTest.Models;
+@{
+    var thuctap = Model;
+    ViewBag.Title = "HuongDan";
+    string action = "LoadList";
+    string controllerName = "HuongDan";
 }
+<script>
+    function filter() {
+        return {
+            tenSV: $("#tenSV").val().trim(),
+            maGV: $("#Magv").val().trim(),
+            maDT: $("#Madt").val().trim(),
+            KQ: $("#KQ").val().trim(),
+        }
+    }
+</script>
 <div class="row mt-1 mb-1 ">
     <div class="col">
         <h5>Hướng dẫn đề tài</h5>
@@ -10,17 +28,51 @@
     </div>
 
 </div>
+
 <main>
-    @using Kendo.Mvc;
-    @using Kendo.Mvc.UI;
-    @using Kendo.Mvc.UI.Fluent;
-    @using KendoTest.Models;
-    @{
-        var thuctap = Model;
-        ViewBag.Title = "HuongDan";
-        string action = "LoadList";
-        string controllerName = "HuongDan";
-    }
+    <div class="row">
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Tên sinh viên </label>
+                @Html.TextBox("tenSV", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Giảng viên</label>
+                @Html.DropDownListFor(x => x.Magv, (IEnumerable<SelectListItem>)ViewBag.ListGV, "Chọn giảng viên", new { @class = "form-control" })
+            </div>
+
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Đề tài</label>
+                @Html.DropDownListFor(x => x.Madt, (IEnumerable<SelectListItem>)ViewBag.ListDT, "Chọn đề tài", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Kết quả</label>
+                @Html.TextBox("KQ", null, new { @class = "form-control" })
+            </div>
+        </div>
+        @*<div class="form-group col-3">
+                <div class="form-label">
+                    <label>Tên giảng viên</label>
+                    @Html.TextBox("maGV", null, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <div class="form-label">
+                    <label>Tên đề tài</label>
+                    @Html.TextBox("maDT", null, new { @class = "form-control" })
+                </div>*@
+
+    </div>
+
+    <p>
+        <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" />
+    </p>
 
     @(Html.Kendo().Grid<KendoTest.ViewModel.HuongDanViewModel>()
     .Name("grid")
@@ -29,17 +81,24 @@
         columns.Bound(x => x.Tensv).Title("Tên sinh viên");
         columns.Bound(x => x.Tengv).Title("Tên giảng viên");
         columns.Bound(x => x.Tendt).Title("Tên đề tài");
-        columns.Bound(x => x.KetQua).Title("Kết quả");
+        columns.Bound(x => x.KetQua).Format("{0:0.##}").Width("120px").HtmlAttributes(new { style = "text-align: center" })
+.Title("Kết quả");
         columns.Bound(x => x.Id).Title("")
-        .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditHD", "HuongDan") + "?maHD=#=Id#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteHD", "HuongDan") + "?maHD=#=Id#'" + ">Xóa</a>");
+        .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditHD", "HuongDan") + "?maHD=#=Id#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteHD", "HuongDan") + "?maHD=#=Id#'" + ">Xóa</a>").HtmlAttributes(new { style = "text-align: center" });
 
     })
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(10)
-        .Read(read => read.Action(action, controllerName)))
+        .Read(read => read.Action(action, controllerName).Data("filter")))
     .Pageable()
     .Scrollable(scroll => scroll.Height("auto"))
     .Sortable().Selectable()
     )
 </main>
+<script>
+    $("#btnSearch").click(function () {
+        var grid = $("#grid").data('kendoGrid');
+        grid.dataSource.read()
+    })
+</script>

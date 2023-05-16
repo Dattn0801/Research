@@ -26,8 +26,8 @@ namespace KendoTest.Models
         public Nullable<int> Namsinh { get; set; }
         public string Quequan { get; set; }
     
-        public virtual TBLKhoa TBLKhoa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBLHuongDan> TBLHuongDans { get; set; }
+        public virtual TBLKhoa TBLKhoa { get; set; }
     }
 }

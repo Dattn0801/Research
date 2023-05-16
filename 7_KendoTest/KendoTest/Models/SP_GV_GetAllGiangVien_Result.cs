@@ -10,15 +10,12 @@
 namespace KendoTest.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TBLGiangVien
+    public partial class SP_GV_GetAllGiangVien_Result
     {
         public int Magv { get; set; }
         public string Hotengv { get; set; }
         public Nullable<decimal> Luong { get; set; }
-        public string Makhoa { get; set; }
-    
-        public virtual TBLKhoa TBLKhoa { get; set; }
+        public string Tenkhoa { get; set; }
     }
 }

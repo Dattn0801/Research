@@ -11,17 +11,37 @@ namespace KendoTest.Services
     {
         ThucTapEntities ctx = new ThucTapEntities();
 
-        public List<HuongDanViewModel> loadList()
+        public List<HuongDanViewModel> loadList(string tenSV, string maDT, int? maGV, decimal? KQ)
         {
-            var lst = ctx.TBLHuongDans.ToList();
+
+            var lst = ctx.TBLHuongDans.AsQueryable();
+            var maSV = ctx.TBLSinhViens.Where(x => x.Hotensv == tenSV).FirstOrDefault();        
+            //if (maSV != null)
+            //{
+            //    lst = lst.Where(l => l.Masv == maSV);
+            //}
+
+            if (!string.IsNullOrEmpty(maDT))
+            {
+                lst = lst.Where(l => l.Madt.Contains(maDT));
+            }
+            if (maGV != null)
+            {
+                lst = lst.Where(l => l.Magv == maGV);
+            }
+            if (KQ != null)
+            {
+                lst = lst.Where(l => l.KetQua == KQ);
+            }
+
+            lst.ToList();
             List<HuongDanViewModel> k = new List<HuongDanViewModel>();
             if (lst != null && lst.Any())
             {
                 foreach (var item in lst)
                 {
-                  
                     var sinhVien = ctx.TBLSinhViens.Where(x => x.Masv == item.Masv).FirstOrDefault();
-                    var deTai = ctx.TBLDeTais.Where(x=>x.Madt == item.Madt).FirstOrDefault();
+                    var deTai = ctx.TBLDeTais.Where(x => x.Madt == item.Madt).FirstOrDefault();
                     var giangVien = ctx.TBLGiangViens.Where(x => x.Magv == item.Magv).FirstOrDefault();
                     k.Add(new HuongDanViewModel()
                     {
@@ -52,7 +72,7 @@ namespace KendoTest.Services
             var e = ctx.TBLHuongDans.Where(x => x.Masv == model.Masv).FirstOrDefault();
             e.Madt = model.Madt.Trim();
             e.Magv = model.Magv;
-            e.KetQua = model.KetQua;     
+            e.KetQua = model.KetQua;
             ctx.SaveChanges();
             return model;
         }
@@ -79,7 +99,7 @@ namespace KendoTest.Services
         //list giang vien
         public List<TBLGiangVien> ListGiangVien()
         {
-            return ctx.TBLGiangViens.ToList();  
+            return ctx.TBLGiangViens.ToList();
         }
 
         //list detai

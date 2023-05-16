@@ -20,9 +20,13 @@ namespace KendoTest.Controllers
             return View();
         }
         //list
-        public ActionResult LoadListKhoa([DataSourceRequest] DataSourceRequest request)
+        public ActionResult LoadListKhoa([DataSourceRequest] DataSourceRequest request,string maKhoa , string tenKhoa, string soDienThoai)
         {
-            var listKhoa = khoaServices.loadListKhoa();
+            //if (string.IsNullOrEmpty(maKhoa))
+            //{
+            //    return Json(new { Error = "01", Message = "Vui long nhap truong bat buoc" });
+            //}
+            var listKhoa = khoaServices.loadListKhoa(maKhoa, tenKhoa, soDienThoai);
             return Json(listKhoa.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

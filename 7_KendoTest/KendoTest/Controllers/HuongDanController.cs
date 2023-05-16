@@ -13,21 +13,23 @@ namespace KendoTest.Controllers
 {
     public class HuongDanController : Controller
     {
-        HuongDanServices huongdanService =  new HuongDanServices();
+        HuongDanServices huongdanService = new HuongDanServices();
         public ActionResult Index()
         {
+            var listDT = huongdanService.ListDeTai();
+            ViewBag.ListDT = new SelectList(listDT, "Madt", "Tendt");
+            var listGV = huongdanService.ListGiangVien();
+            ViewBag.ListGV = new SelectList(listGV, "Magv", "Hotengv");
             return View();
         }
 
         //list
-        public ActionResult LoadList([DataSourceRequest] DataSourceRequest request)
+        [HttpPost]
+        public ActionResult LoadList([DataSourceRequest] DataSourceRequest request, string tenSV, string maDT, int? maGV, decimal? KQ)
         {
-            var list = huongdanService.loadList();
-            
+            var list = huongdanService.loadList(tenSV, maDT, maGV, KQ);
             return Json(list.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
-
         public ActionResult CreateHD()
         {
             //sinh vien

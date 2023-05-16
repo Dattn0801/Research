@@ -6,6 +6,7 @@ using System.Web;
 using KendoTest.ViewModel;
 using System.Web.Mvc;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace KendoTest.Services
 {
@@ -14,23 +15,63 @@ namespace KendoTest.Services
         ThucTapEntities ctx = new ThucTapEntities();
 
         //listkhoa
-        public List<KhoaViewModel> loadListKhoa()
+        public List<KhoaViewModel> loadListKhoa(string maKhoa, string tenKhoa, string soDienThoai)
         {
-            var lst = ctx.TBLKhoas.ToList();
-            List<KhoaViewModel> k = new List<KhoaViewModel>();
-            if (lst != null && lst.Any())
+            //var listKhoa = ctx.TBLKhoas.AsQueryable();
+
+            var listKhoa = ctx.TBLKhoas.ToList();
+
+            var result = listKhoa.Select(x => new KhoaViewModel
             {
-                foreach (var item in lst)
+                Makhoa = x.Makhoa.Trim(),
+                Tenkhoa = x.Tenkhoa.Trim(),
+                Dienthoai = x.Dienthoai.Trim(),
+            }).ToList();
+
+            if (result != null && result.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(maKhoa) || !string.IsNullOrEmpty(tenKhoa) || !string.IsNullOrEmpty(soDienThoai))
                 {
-                    k.Add(new KhoaViewModel()
-                    {
-                        Makhoa = item.Makhoa,
-                        Tenkhoa = item.Tenkhoa,
-                        Dienthoai = item.Dienthoai,
-                    });
+                    result = result.Where(x => x.Makhoa.Contains(maKhoa) && x.Tenkhoa.Contains(tenKhoa) && x.Dienthoai.Contains(soDienThoai)).ToList();
                 }
             }
-            return k;
+
+            return result;
+
+            //if (!string.IsNullOrEmpty(maKhoa))
+            //{
+            //    maKhoa.Trim();
+            //    listKhoa = listKhoa.Where(x => x.Makhoa.Contains(maKhoa));
+            //}
+
+            //if (!string.IsNullOrEmpty(soDienThoai))
+            //{
+            //    soDienThoai.Trim();
+            //    listKhoa = listKhoa.Where(l => l.Dienthoai.Contains(soDienThoai));
+            //}
+            //if (!string.IsNullOrEmpty(tenKhoa))
+            //{
+            //    tenKhoa.Trim();
+            //    listKhoa = listKhoa.Where(l => l.Tenkhoa.Contains(tenKhoa));
+            //}
+           
+           
+            //listKhoa.ToList();
+            //var lst = ctx.TBLKhoas.ToList();
+            //List<KhoaViewModel> k = new List<KhoaViewModel>();
+            //if (lst != null && lst.Any())
+            //{
+            //    foreach (var item in lst)
+            //    {
+            //        k.Add(new KhoaViewModel()
+            //        {
+            //            Makhoa = item.Makhoa,
+            //            Tenkhoa = item.Tenkhoa,
+            //            Dienthoai = item.Dienthoai,
+            //        });
+            //    }
+            //}
+            //return k;
         }     
 
         //createkhoa

@@ -19,19 +19,19 @@
           <Key>
             <PropertyRef Name="Madt" />
           </Key>
-          <Property Name="Madt" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="Tendt" Type="char" MaxLength="30" />
+          <Property Name="Madt" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Tendt" Type="nvarchar" MaxLength="250" />
           <Property Name="Kinhphi" Type="int" />
-          <Property Name="Noithuctap" Type="char" MaxLength="30" />
+          <Property Name="Noithuctap" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="TBLGiangVien">
           <Key>
             <PropertyRef Name="Magv" />
           </Key>
-          <Property Name="Magv" Type="int" Nullable="false" />
-          <Property Name="Hotengv" Type="char" MaxLength="30" />
-          <Property Name="Luong" Type="decimal" Precision="5" Scale="2" />
-          <Property Name="Makhoa" Type="char" MaxLength="10" />
+          <Property Name="Magv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Hotengv" Type="nvarchar" MaxLength="250" />
+          <Property Name="Luong" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Makhoa" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="TBLHuongDan">
           <Key>
@@ -39,7 +39,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Masv" Type="int" />
-          <Property Name="Madt" Type="char" MaxLength="10" />
+          <Property Name="Madt" Type="nvarchar" MaxLength="250" />
           <Property Name="Magv" Type="int" />
           <Property Name="KetQua" Type="decimal" Precision="5" Scale="2" />
         </EntityType>
@@ -47,19 +47,19 @@
           <Key>
             <PropertyRef Name="Makhoa" />
           </Key>
-          <Property Name="Makhoa" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="Tenkhoa" Type="char" MaxLength="30" />
-          <Property Name="Dienthoai" Type="char" MaxLength="10" />
+          <Property Name="Makhoa" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Tenkhoa" Type="nvarchar" MaxLength="250" />
+          <Property Name="Dienthoai" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="TBLSinhVien">
           <Key>
             <PropertyRef Name="Masv" />
           </Key>
           <Property Name="Masv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Hotensv" Type="char" MaxLength="40" />
-          <Property Name="Makhoa" Type="char" MaxLength="10" />
+          <Property Name="Hotensv" Type="nvarchar" MaxLength="250" />
+          <Property Name="Makhoa" Type="nvarchar" MaxLength="250" />
           <Property Name="Namsinh" Type="int" />
-          <Property Name="Quequan" Type="char" MaxLength="30" />
+          <Property Name="Quequan" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <Association Name="FK__TBLGiangV__Makho__3F466844">
           <End Role="TBLKhoa" Type="Self.TBLKhoa" Multiplicity="0..1" />
@@ -82,18 +82,6 @@
             </Principal>
             <Dependent Role="TBLHuongDan">
               <PropertyRef Name="Madt" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TBLHuongDa__Magv__5812160E">
-          <End Role="TBLGiangVien" Type="Self.TBLGiangVien" Multiplicity="0..1" />
-          <End Role="TBLHuongDan" Type="Self.TBLHuongDan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLGiangVien">
-              <PropertyRef Name="Magv" />
-            </Principal>
-            <Dependent Role="TBLHuongDan">
-              <PropertyRef Name="Magv" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -121,6 +109,67 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_DT_AddEditDeTai" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaDT" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDT" Type="nvarchar" Mode="In" />
+          <Parameter Name="KinhPhi" Type="int" Mode="In" />
+          <Parameter Name="NoiThucTap" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_DT_GetAllDeTai" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaDT" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDT" Type="nvarchar" Mode="In" />
+          <Parameter Name="KinhPhi" Type="int" Mode="In" />
+          <Parameter Name="NoiThucTap" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GV_AddEditGiangVien" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaGV" Type="nvarchar" Mode="In" />
+          <Parameter Name="HoTen" Type="nvarchar" Mode="In" />
+          <Parameter Name="Luong" Type="int" Mode="In" />
+          <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GV_GetAllGiangVien" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaGV" Type="int" Mode="In" />
+          <Parameter Name="HoTen" Type="nvarchar" Mode="In" />
+          <Parameter Name="Luong" Type="decimal" Mode="In" />
+          <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_HD_AddEditHuongDanDeTai" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="MaSV" Type="nvarchar" Mode="In" />
+          <Parameter Name="MaGV" Type="nvarchar" Mode="In" />
+          <Parameter Name="MaDT" Type="nvarchar" Mode="In" />
+          <Parameter Name="KetQua" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="SP_HD_HuongDanDeTai" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaSV" Type="int" Mode="In" />
+          <Parameter Name="MaGV" Type="int" Mode="In" />
+          <Parameter Name="MaDT" Type="nvarchar" Mode="In" />
+          <Parameter Name="KetQua" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="SP_KHOA_AddEditKhoa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenKhoa" Type="nvarchar" Mode="In" />
+          <Parameter Name="SoDienThoai" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_KHOA_GetAllKhoa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenKhoa" Type="nvarchar" Mode="In" />
+          <Parameter Name="DienThoai" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_SV_AddEditSinhVien" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaSV" Type="int" Mode="In" />
+          <Parameter Name="HoTen" Type="nvarchar" Mode="In" />
+          <Parameter Name="NamSinh" Type="int" Mode="In" />
+          <Parameter Name="QueQuan" Type="nvarchar" Mode="In" />
+          <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_SV_GetAllSinhVien" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HoTen" Type="nvarchar" Mode="In" />
+          <Parameter Name="NamSinh" Type="int" Mode="In" />
+          <Parameter Name="QueQuan" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenKhoa" Type="nvarchar" Mode="In" />
+          <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="ThucTapModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBLDeTai" EntityType="Self.TBLDeTai" Schema="dbo" store:Type="Tables" />
@@ -134,10 +183,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__TBLHuongDa__Madt__571DF1D5" Association="Self.FK__TBLHuongDa__Madt__571DF1D5">
             <End Role="TBLDeTai" EntitySet="TBLDeTai" />
-            <End Role="TBLHuongDan" EntitySet="TBLHuongDan" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TBLHuongDa__Magv__5812160E" Association="Self.FK__TBLHuongDa__Magv__5812160E">
-            <End Role="TBLGiangVien" EntitySet="TBLGiangVien" />
             <End Role="TBLHuongDan" EntitySet="TBLHuongDan" />
           </AssociationSet>
           <AssociationSet Name="FK__TBLHuongDa__Masv__59063A47" Association="Self.FK__TBLHuongDa__Masv__59063A47">
@@ -167,34 +212,69 @@
           <Key>
             <PropertyRef Name="Madt" />
           </Key>
-          <Property Name="Madt" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Tendt" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="Madt" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tendt" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Kinhphi" Type="Int32" />
-          <Property Name="Noithuctap" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="TBLHuongDans" Relationship="ThucTapModel.FK__TBLHuongDa__Madt__45F365D3" FromRole="TBLDeTai" ToRole="TBLHuongDan" />
+          <Property Name="Noithuctap" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLHuongDans" Relationship="Self.FK__TBLHuongDa__Madt__571DF1D5" FromRole="TBLDeTai" ToRole="TBLHuongDan" />
         </EntityType>
         <EntityType Name="TBLGiangVien">
           <Key>
             <PropertyRef Name="Magv" />
           </Key>
-          <Property Name="Magv" Type="Int32" Nullable="false" />
-          <Property Name="Hotengv" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
-          <Property Name="Luong" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="Makhoa" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="TBLKhoa" Relationship="Self.FK__TBLGiangV__Makho__398D8EEE" FromRole="TBLGiangVien" ToRole="TBLKhoa" />
-          <NavigationProperty Name="TBLHuongDans" Relationship="ThucTapModel.FK__TBLHuongDa__Magv__46E78A0C" FromRole="TBLGiangVien" ToRole="TBLHuongDan" />
+          <Property Name="Magv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hotengv" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Luong" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Makhoa" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLKhoa" Relationship="Self.FK__TBLGiangV__Makho__3F466844" FromRole="TBLGiangVien" ToRole="TBLKhoa" />
+        </EntityType>
+        <EntityType Name="TBLHuongDan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Masv" Type="Int32" />
+          <Property Name="Madt" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Magv" Type="Int32" />
+          <Property Name="KetQua" Type="Decimal" Precision="5" Scale="2" />
+          <NavigationProperty Name="TBLDeTai" Relationship="Self.FK__TBLHuongDa__Madt__571DF1D5" FromRole="TBLHuongDan" ToRole="TBLDeTai" />
+          <NavigationProperty Name="TBLSinhVien" Relationship="Self.FK__TBLHuongDa__Masv__59063A47" FromRole="TBLHuongDan" ToRole="TBLSinhVien" />
         </EntityType>
         <EntityType Name="TBLKhoa">
           <Key>
             <PropertyRef Name="Makhoa" />
           </Key>
-          <Property Name="Makhoa" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Tenkhoa" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
-          <Property Name="Dienthoai" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="TBLGiangViens" Relationship="Self.FK__TBLGiangV__Makho__398D8EEE" FromRole="TBLKhoa" ToRole="TBLGiangVien" />
-          <NavigationProperty Name="TBLSinhViens" Relationship="ThucTapModel.FK__TBLSinhVi__Makho__4222D4EF" FromRole="TBLKhoa" ToRole="TBLSinhVien" />
+          <Property Name="Makhoa" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tenkhoa" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Dienthoai" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLGiangViens" Relationship="Self.FK__TBLGiangV__Makho__3F466844" FromRole="TBLKhoa" ToRole="TBLGiangVien" />
+          <NavigationProperty Name="TBLSinhViens" Relationship="Self.FK__TBLSinhVi__Makho__4222D4EF" FromRole="TBLKhoa" ToRole="TBLSinhVien" />
         </EntityType>
-        <Association Name="FK__TBLGiangV__Makho__398D8EEE">
+        <EntityType Name="TBLSinhVien">
+          <Key>
+            <PropertyRef Name="Masv" />
+          </Key>
+          <Property Name="Masv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hotensv" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Makhoa" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Namsinh" Type="Int32" />
+          <Property Name="Quequan" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLHuongDans" Relationship="Self.FK__TBLHuongDa__Masv__59063A47" FromRole="TBLSinhVien" ToRole="TBLHuongDan" />
+          <NavigationProperty Name="TBLKhoa" Relationship="Self.FK__TBLSinhVi__Makho__4222D4EF" FromRole="TBLSinhVien" ToRole="TBLKhoa" />
+        </EntityType>
+        <Association Name="FK__TBLHuongDa__Madt__571DF1D5">
+          <End Role="TBLDeTai" Type="Self.TBLDeTai" Multiplicity="0..1" />
+          <End Role="TBLHuongDan" Type="Self.TBLHuongDan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLDeTai">
+              <PropertyRef Name="Madt" />
+            </Principal>
+            <Dependent Role="TBLHuongDan">
+              <PropertyRef Name="Madt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TBLGiangV__Makho__3F466844">
           <End Role="TBLKhoa" Type="Self.TBLKhoa" Multiplicity="0..1" />
           <End Role="TBLGiangVien" Type="Self.TBLGiangVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -206,98 +286,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ThucTapEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="TBLDeTais" EntityType="Self.TBLDeTai" />
-          <EntitySet Name="TBLGiangViens" EntityType="Self.TBLGiangVien" />
-          <EntitySet Name="TBLKhoas" EntityType="Self.TBLKhoa" />
-          <AssociationSet Name="FK__TBLGiangV__Makho__398D8EEE" Association="Self.FK__TBLGiangV__Makho__398D8EEE">
-            <End Role="TBLKhoa" EntitySet="TBLKhoas" />
-            <End Role="TBLGiangVien" EntitySet="TBLGiangViens" />
-          </AssociationSet>
-          <EntitySet Name="TBLSinhViens" EntityType="ThucTapModel.TBLSinhVien" />
-          <AssociationSet Name="FK__TBLSinhVi__Makho__4222D4EF" Association="ThucTapModel.FK__TBLSinhVi__Makho__4222D4EF">
-            <End Role="TBLKhoa" EntitySet="TBLKhoas" />
-            <End Role="TBLSinhVien" EntitySet="TBLSinhViens" />
-          </AssociationSet>
-          <EntitySet Name="TBLHuongDans" EntityType="ThucTapModel.TBLHuongDan" />
-          <AssociationSet Name="FK__TBLHuongDa__Madt__45F365D3" Association="ThucTapModel.FK__TBLHuongDa__Madt__45F365D3">
-            <End Role="TBLDeTai" EntitySet="TBLDeTais" />
-            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TBLHuongDa__Magv__46E78A0C" Association="ThucTapModel.FK__TBLHuongDa__Magv__46E78A0C">
-            <End Role="TBLGiangVien" EntitySet="TBLGiangViens" />
-            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TBLHuongDa__Masv__59063A47" Association="ThucTapModel.FK__TBLHuongDa__Masv__59063A47">
-            <End Role="TBLSinhVien" EntitySet="TBLSinhViens" />
-            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="TBLSinhVien">
-          <Key>
-            <PropertyRef Name="Masv" />
-          </Key>
-          <Property Name="Masv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Hotensv" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
-          <Property Name="Makhoa" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="Namsinh" Type="Int32" />
-          <Property Name="Quequan" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="TBLKhoa" Relationship="ThucTapModel.FK__TBLSinhVi__Makho__4222D4EF" FromRole="TBLSinhVien" ToRole="TBLKhoa" />
-          <NavigationProperty Name="TBLHuongDans" Relationship="ThucTapModel.FK__TBLHuongDa__Masv__59063A47" FromRole="TBLSinhVien" ToRole="TBLHuongDan" />
-        </EntityType>
-        <Association Name="FK__TBLSinhVi__Makho__4222D4EF">
-          <End Type="ThucTapModel.TBLKhoa" Role="TBLKhoa" Multiplicity="0..1" />
-          <End Type="ThucTapModel.TBLSinhVien" Role="TBLSinhVien" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLKhoa">
-              <PropertyRef Name="Makhoa" />
-            </Principal>
-            <Dependent Role="TBLSinhVien">
-              <PropertyRef Name="Makhoa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TBLHuongDan">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Masv" Type="Int32" />
-          <Property Name="Madt" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="Magv" Type="Int32" />
-          <Property Name="KetQua" Type="Decimal" Precision="5" Scale="2" />
-          <NavigationProperty Name="TBLDeTai" Relationship="ThucTapModel.FK__TBLHuongDa__Madt__45F365D3" FromRole="TBLHuongDan" ToRole="TBLDeTai" />
-          <NavigationProperty Name="TBLGiangVien" Relationship="ThucTapModel.FK__TBLHuongDa__Magv__46E78A0C" FromRole="TBLHuongDan" ToRole="TBLGiangVien" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="TBLSinhVien" Relationship="ThucTapModel.FK__TBLHuongDa__Masv__59063A47" FromRole="TBLHuongDan" ToRole="TBLSinhVien" />
-        </EntityType>
-        <Association Name="FK__TBLHuongDa__Madt__45F365D3">
-          <End Type="ThucTapModel.TBLDeTai" Role="TBLDeTai" Multiplicity="0..1" />
-          <End Type="ThucTapModel.TBLHuongDan" Role="TBLHuongDan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLDeTai">
-              <PropertyRef Name="Madt" />
-            </Principal>
-            <Dependent Role="TBLHuongDan">
-              <PropertyRef Name="Madt" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TBLHuongDa__Magv__46E78A0C">
-          <End Type="ThucTapModel.TBLGiangVien" Role="TBLGiangVien" Multiplicity="0..1" />
-          <End Type="ThucTapModel.TBLHuongDan" Role="TBLHuongDan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLGiangVien">
-              <PropertyRef Name="Magv" />
-            </Principal>
-            <Dependent Role="TBLHuongDan">
-              <PropertyRef Name="Magv" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TBLHuongDa__Masv__59063A47">
-          <End Type="ThucTapModel.TBLSinhVien" Role="TBLSinhVien" Multiplicity="0..1" />
-          <End Type="ThucTapModel.TBLHuongDan" Role="TBLHuongDan" Multiplicity="*" />
+          <End Role="TBLSinhVien" Type="Self.TBLSinhVien" Multiplicity="0..1" />
+          <End Role="TBLHuongDan" Type="Self.TBLHuongDan" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TBLSinhVien">
               <PropertyRef Name="Masv" />
@@ -307,6 +298,154 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__TBLSinhVi__Makho__4222D4EF">
+          <End Role="TBLKhoa" Type="Self.TBLKhoa" Multiplicity="0..1" />
+          <End Role="TBLSinhVien" Type="Self.TBLSinhVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLKhoa">
+              <PropertyRef Name="Makhoa" />
+            </Principal>
+            <Dependent Role="TBLSinhVien">
+              <PropertyRef Name="Makhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ThucTapEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TBLDeTais" EntityType="Self.TBLDeTai" />
+          <EntitySet Name="TBLGiangViens" EntityType="Self.TBLGiangVien" />
+          <EntitySet Name="TBLHuongDans" EntityType="Self.TBLHuongDan" />
+          <EntitySet Name="TBLKhoas" EntityType="Self.TBLKhoa" />
+          <EntitySet Name="TBLSinhViens" EntityType="Self.TBLSinhVien" />
+          <AssociationSet Name="FK__TBLHuongDa__Madt__571DF1D5" Association="Self.FK__TBLHuongDa__Madt__571DF1D5">
+            <End Role="TBLDeTai" EntitySet="TBLDeTais" />
+            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TBLGiangV__Makho__3F466844" Association="Self.FK__TBLGiangV__Makho__3F466844">
+            <End Role="TBLKhoa" EntitySet="TBLKhoas" />
+            <End Role="TBLGiangVien" EntitySet="TBLGiangViens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TBLHuongDa__Masv__59063A47" Association="Self.FK__TBLHuongDa__Masv__59063A47">
+            <End Role="TBLSinhVien" EntitySet="TBLSinhViens" />
+            <End Role="TBLHuongDan" EntitySet="TBLHuongDans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TBLSinhVi__Makho__4222D4EF" Association="Self.FK__TBLSinhVi__Makho__4222D4EF">
+            <End Role="TBLKhoa" EntitySet="TBLKhoas" />
+            <End Role="TBLSinhVien" EntitySet="TBLSinhViens" />
+          </AssociationSet>
+          <FunctionImport Name="SP_GetAllSinhVien" ReturnType="Collection(ThucTapModel.SP_GetAllSinhVien_Result)">
+            <Parameter Name="HoTen" Mode="In" Type="String" />
+            <Parameter Name="NamSinh" Mode="In" Type="Int32" />
+            <Parameter Name="QueQuan" Mode="In" Type="String" />
+            <Parameter Name="TenKhoa" Mode="In" Type="String" />
+            <Parameter Name="MaKhoa" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ThemSinVien">
+            <Parameter Name="MaSV" Mode="In" Type="Int32" />
+            <Parameter Name="HoTen" Mode="In" Type="String" />
+            <Parameter Name="NamSinh" Mode="In" Type="Int32" />
+            <Parameter Name="QueQuan" Mode="In" Type="String" />
+            <Parameter Name="MaKhoa" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DT_AddEditDeTai">
+            <Parameter Name="MaDT" Mode="In" Type="String" />
+            <Parameter Name="TenDT" Mode="In" Type="String" />
+            <Parameter Name="KinhPhi" Mode="In" Type="Int32" />
+            <Parameter Name="NoiThucTap" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DT_GetAllDeTai" ReturnType="Collection(ThucTapModel.SP_DT_GetAllDeTai_Result)">
+            <Parameter Name="MaDT" Mode="In" Type="String" />
+            <Parameter Name="TenDT" Mode="In" Type="String" />
+            <Parameter Name="KinhPhi" Mode="In" Type="Int32" />
+            <Parameter Name="NoiThucTap" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GV_AddEditGiangVien">
+            <Parameter Name="MaGV" Mode="In" Type="String" />
+            <Parameter Name="HoTen" Mode="In" Type="String" />
+            <Parameter Name="Luong" Mode="In" Type="Int32" />
+            <Parameter Name="MaKhoa" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GV_GetAllGiangVien" ReturnType="Collection(ThucTapModel.SP_GV_GetAllGiangVien_Result)">
+            <Parameter Name="MaGV" Mode="In" Type="Int32" />
+            <Parameter Name="HoTen" Mode="In" Type="String" />
+            <Parameter Name="Luong" Mode="In" Type="Decimal" />
+            <Parameter Name="MaKhoa" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_HD_AddEditHuongDanDeTai">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="MaSV" Mode="In" Type="String" />
+            <Parameter Name="MaGV" Mode="In" Type="String" />
+            <Parameter Name="MaDT" Mode="In" Type="String" />
+            <Parameter Name="KetQua" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SP_HD_HuongDanDeTai" ReturnType="Collection(ThucTapModel.SP_HD_HuongDanDeTai_Result)">
+            <Parameter Name="MaSV" Mode="In" Type="Int32" />
+            <Parameter Name="MaGV" Mode="In" Type="Int32" />
+            <Parameter Name="MaDT" Mode="In" Type="String" />
+            <Parameter Name="KetQua" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SP_KHOA_AddEditKhoa">
+            <Parameter Name="MaKhoa" Mode="In" Type="String" />
+            <Parameter Name="TenKhoa" Mode="In" Type="String" />
+            <Parameter Name="SoDienThoai" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_KHOA_GetAllKhoa" ReturnType="Collection(ThucTapModel.SP_KHOA_GetAllKhoa_Result)">
+            <Parameter Name="MaKhoa" Mode="In" Type="String" />
+            <Parameter Name="TenKhoa" Mode="In" Type="String" />
+            <Parameter Name="DienThoai" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SV_AddEditSinhVien">
+            <Parameter Name="MaSV" Mode="In" Type="Int32" />
+            <Parameter Name="HoTen" Mode="In" Type="String" />
+            <Parameter Name="NamSinh" Mode="In" Type="Int32" />
+            <Parameter Name="QueQuan" Mode="In" Type="String" />
+            <Parameter Name="MaKhoa" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SV_GetAllSinhVien" ReturnType="Collection(ThucTapModel.SP_SV_GetAllSinhVien_Result)">
+            <Parameter Name="HoTen" Mode="In" Type="String" />
+            <Parameter Name="NamSinh" Mode="In" Type="Int32" />
+            <Parameter Name="QueQuan" Mode="In" Type="String" />
+            <Parameter Name="TenKhoa" Mode="In" Type="String" />
+            <Parameter Name="MaKhoa" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SP_GetAllSinhVien_Result">
+          <Property Type="String" Name="Hotensv" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Tenkhoa" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Masv" Nullable="false" />
+          <Property Type="Int32" Name="Namsinh" Nullable="true" />
+          <Property Type="String" Name="Quequan" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SP_DT_GetAllDeTai_Result">
+          <Property Type="String" Name="Madt" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Tendt" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Kinhphi" Nullable="true" />
+          <Property Type="String" Name="Noithuctap" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SP_GV_GetAllGiangVien_Result">
+          <Property Type="Int32" Name="Magv" Nullable="false" />
+          <Property Type="String" Name="Hotengv" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="Luong" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="String" Name="Tenkhoa" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SP_HD_HuongDanDeTai_Result">
+          <Property Type="String" Name="Hotensv" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Hotengv" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Madt" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="KetQua" Nullable="true" Precision="5" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="SP_KHOA_GetAllKhoa_Result">
+          <Property Type="String" Name="Makhoa" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Tenkhoa" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Dienthoai" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SP_SV_GetAllSinhVien_Result">
+          <Property Type="String" Name="Hotensv" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Tenkhoa" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Masv" Nullable="false" />
+          <Property Type="Int32" Name="Namsinh" Nullable="true" />
+          <Property Type="String" Name="Quequan" Nullable="true" MaxLength="250" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -344,6 +483,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TBLHuongDans">
+            <EntityTypeMapping TypeName="ThucTapModel.TBLHuongDan">
+              <MappingFragment StoreEntitySet="TBLHuongDan">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Masv" ColumnName="Masv" />
+                <ScalarProperty Name="Madt" ColumnName="Madt" />
+                <ScalarProperty Name="Magv" ColumnName="Magv" />
+                <ScalarProperty Name="KetQua" ColumnName="KetQua" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TBLKhoas">
             <EntityTypeMapping TypeName="ThucTapModel.TBLKhoa">
               <MappingFragment StoreEntitySet="TBLKhoa">
@@ -356,26 +506,70 @@
           <EntitySetMapping Name="TBLSinhViens">
             <EntityTypeMapping TypeName="ThucTapModel.TBLSinhVien">
               <MappingFragment StoreEntitySet="TBLSinhVien">
-                <ScalarProperty Name="Quequan" ColumnName="Quequan" />
-                <ScalarProperty Name="Namsinh" ColumnName="Namsinh" />
-                <ScalarProperty Name="Makhoa" ColumnName="Makhoa" />
+                <ScalarProperty Name="Masv" ColumnName="Masv" />
                 <ScalarProperty Name="Hotensv" ColumnName="Hotensv" />
-                <ScalarProperty Name="Masv" ColumnName="Masv" />
+                <ScalarProperty Name="Makhoa" ColumnName="Makhoa" />
+                <ScalarProperty Name="Namsinh" ColumnName="Namsinh" />
+                <ScalarProperty Name="Quequan" ColumnName="Quequan" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBLHuongDans">
-            <EntityTypeMapping TypeName="ThucTapModel.TBLHuongDan">
-              <MappingFragment StoreEntitySet="TBLHuongDan">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="KetQua" ColumnName="KetQua" />
-                <ScalarProperty Name="Magv" ColumnName="Magv" />
+          <FunctionImportMapping FunctionImportName="SP_DT_AddEditDeTai" FunctionName="ThucTapModel.Store.SP_DT_AddEditDeTai" />
+          <FunctionImportMapping FunctionImportName="SP_DT_GetAllDeTai" FunctionName="ThucTapModel.Store.SP_DT_GetAllDeTai">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ThucTapModel.SP_DT_GetAllDeTai_Result">
                 <ScalarProperty Name="Madt" ColumnName="Madt" />
+                <ScalarProperty Name="Tendt" ColumnName="Tendt" />
+                <ScalarProperty Name="Kinhphi" ColumnName="Kinhphi" />
+                <ScalarProperty Name="Noithuctap" ColumnName="Noithuctap" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GV_AddEditGiangVien" FunctionName="ThucTapModel.Store.SP_GV_AddEditGiangVien" />
+          <FunctionImportMapping FunctionImportName="SP_GV_GetAllGiangVien" FunctionName="ThucTapModel.Store.SP_GV_GetAllGiangVien">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ThucTapModel.SP_GV_GetAllGiangVien_Result">
+                <ScalarProperty Name="Magv" ColumnName="Magv" />
+                <ScalarProperty Name="Hotengv" ColumnName="Hotengv" />
+                <ScalarProperty Name="Luong" ColumnName="Luong" />
+                <ScalarProperty Name="Tenkhoa" ColumnName="Tenkhoa" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_HD_AddEditHuongDanDeTai" FunctionName="ThucTapModel.Store.SP_HD_AddEditHuongDanDeTai" />
+          <FunctionImportMapping FunctionImportName="SP_HD_HuongDanDeTai" FunctionName="ThucTapModel.Store.SP_HD_HuongDanDeTai">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ThucTapModel.SP_HD_HuongDanDeTai_Result">
+                <ScalarProperty Name="Hotensv" ColumnName="Hotensv" />
+                <ScalarProperty Name="Hotengv" ColumnName="Hotengv" />
+                <ScalarProperty Name="Madt" ColumnName="Madt" />
+                <ScalarProperty Name="KetQua" ColumnName="KetQua" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_KHOA_AddEditKhoa" FunctionName="ThucTapModel.Store.SP_KHOA_AddEditKhoa" />
+          <FunctionImportMapping FunctionImportName="SP_KHOA_GetAllKhoa" FunctionName="ThucTapModel.Store.SP_KHOA_GetAllKhoa">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ThucTapModel.SP_KHOA_GetAllKhoa_Result">
+                <ScalarProperty Name="Makhoa" ColumnName="Makhoa" />
+                <ScalarProperty Name="Tenkhoa" ColumnName="Tenkhoa" />
+                <ScalarProperty Name="Dienthoai" ColumnName="Dienthoai" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_SV_AddEditSinhVien" FunctionName="ThucTapModel.Store.SP_SV_AddEditSinhVien" />
+          <FunctionImportMapping FunctionImportName="SP_SV_GetAllSinhVien" FunctionName="ThucTapModel.Store.SP_SV_GetAllSinhVien">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ThucTapModel.SP_SV_GetAllSinhVien_Result">
+                <ScalarProperty Name="Hotensv" ColumnName="Hotensv" />
+                <ScalarProperty Name="Tenkhoa" ColumnName="Tenkhoa" />
                 <ScalarProperty Name="Masv" ColumnName="Masv" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
+                <ScalarProperty Name="Namsinh" ColumnName="Namsinh" />
+                <ScalarProperty Name="Quequan" ColumnName="Quequan" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

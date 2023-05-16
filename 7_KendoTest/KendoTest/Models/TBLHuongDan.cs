@@ -14,14 +14,13 @@ namespace KendoTest.Models
     
     public partial class TBLHuongDan
     {
+        public int Id { get; set; }
         public Nullable<int> Masv { get; set; }
         public string Madt { get; set; }
         public Nullable<int> Magv { get; set; }
         public Nullable<decimal> KetQua { get; set; }
-        public int Id { get; set; }
     
         public virtual TBLDeTai TBLDeTai { get; set; }
-        public virtual TBLGiangVien TBLGiangVien { get; set; }
         public virtual TBLSinhVien TBLSinhVien { get; set; }
     }
 }

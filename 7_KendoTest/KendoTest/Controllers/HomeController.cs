@@ -15,7 +15,7 @@ namespace KendoTest.Controllers
     public class HomeController : Controller
     {
         SinhVienService svService = new SinhVienService();
-        ThucTapEntities ctx = new ThucTapEntities();
+
         public ActionResult Index()
         {
             var listKhoa = svService.ListKhoa();
@@ -23,15 +23,15 @@ namespace KendoTest.Controllers
             return View();
         }
      
-        public ActionResult LoadListSv([DataSourceRequest] DataSourceRequest request, string hoTenSinhVien, int? namSinh, string queQuan, string TenKhoa, string Makhoa)
+        public ActionResult LoadListSv([DataSourceRequest] DataSourceRequest request, ParamSinhVien param)
         {
-            var listSV = svService.loadSinhVien(hoTenSinhVien, namSinh, queQuan, TenKhoa, Makhoa);
+            var listSV = svService.LoadSinhVien(param);
             return Json(listSV.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
        
         public ActionResult EditSv(int? maSv)
         {
-            var editSv = svService.getSinhVien(maSv);
+            var editSv = svService.GetSinhVien(maSv);
             var listKhoa = svService.ListKhoa();
             ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
             return View(editSv);
@@ -40,14 +40,14 @@ namespace KendoTest.Controllers
         [HttpPost]
         public ActionResult EditSv(TBLSinhVien model)
         {
-            svService.editSinhVien(model);
+            svService.EditSinhVien(model);
             return RedirectToAction("Index");
         }
 
         //[HttpPost]
         public ActionResult DeleteSv(int? maSv)
         {
-            svService.deleteSinhVien(maSv);
+            svService.DeleteSinhVien(maSv);
             return RedirectToAction("Index");
         }
 
@@ -57,15 +57,15 @@ namespace KendoTest.Controllers
             ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
             return View("CreateSv");
         }
+        
         [HttpPost]
         public ActionResult CreateSv(TBLSinhVien model)
         {
-            svService.createSinhVien(model);
-
-            //var listKhoa = svService.ListKhoa();
-            //ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
+            svService.CreateSinhVien(model);
             return RedirectToAction("Index");
         }
+
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

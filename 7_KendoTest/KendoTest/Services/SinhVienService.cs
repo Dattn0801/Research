@@ -4,8 +4,10 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.ModelBinding;
 using System.Xml.Linq;
+using System.Xml.Schema;
 using KendoTest.Models;
 using KendoTest.ViewModel;
 
@@ -14,82 +16,31 @@ namespace KendoTest.Services
     public class SinhVienService
     {
         ThucTapEntities ctx = new ThucTapEntities();
-        public List<SinhVienViewModel> loadSinhVien(string hoTenSinhVien, int? namSinh, string queQuan, string TenKhoa, string maKhoa)
+        public List<SinhVienViewModel> LoadSinhVien(ParamSinhVien param)
         {
-            //var listSv = ctx.TBLSinhViens.ToList();
-            var listSv = ctx.TBLSinhViens.AsQueryable();
+            var listSV = ctx.SP_SV_GetAllSinhVien(param.HoTen, param.NamSinh, param.QueQuan, param.TenKhoa, param.MaKhoa).ToList();
+            List<SinhVienViewModel> sinhVien = new List<SinhVienViewModel>();
 
-            if (!string.IsNullOrEmpty(hoTenSinhVien))
+            if(listSV != null && listSV.Count > 0)
             {
-                listSv = listSv.Where(l => l.Hotensv.Contains(hoTenSinhVien));
-            }
-
-            if (!string.IsNullOrEmpty(queQuan))
-            {
-                listSv = listSv.Where(l => l.Quequan.Contains(queQuan));
-            }
-            if (namSinh != null)
-            {
-                listSv = listSv.Where(l => l.Namsinh == namSinh);
-            }
-
-            if (!string.IsNullOrEmpty(maKhoa))
-            {
-                //var khoa = ctx.TBLKhoas.FirstOrDefault(x => x.Tenkhoa == TenKhoa);
-                maKhoa = maKhoa.Trim();
-                listSv = listSv.Where(l => l.Makhoa.Contains(maKhoa));
-            }
-            listSv.ToList();
-            
-            List<SinhVienViewModel> sv = new List<SinhVienViewModel>();
-            if (listSv != null && listSv.Any())
-            {
-                foreach (var item in listSv)
+                sinhVien = listSV.Select(m => new SinhVienViewModel
                 {
-
-                    var khoa = ctx.TBLKhoas.FirstOrDefault(x => x.Makhoa == item.Makhoa);
-                    sv.Add(new SinhVienViewModel()
-                    {
-                        Masv = item.Masv,
-                        Hotensv = item.Hotensv,
-                        Namsinh = item.Namsinh,
-                        Quequan = item.Quequan,
-                        Makhoa = item.Makhoa,
-                        Tenkhoa = khoa.Tenkhoa,
-                    });
-                }
+                    Hotensv = m.Hotensv,
+                    Masv = m.Masv,
+                    Namsinh = m.Namsinh,
+                    Quequan = m.Quequan,
+                    Tenkhoa = m.Tenkhoa,
+                }).ToList();
             }
-            return sv;
-        }
-        public List<SinhVienViewModel> searchSinhVien(string hoTenSinhVien,int? namSinh,string queQuan, string TenKhoa)
-        {
-            var listSv = ctx.TBLSinhViens.ToList();
-            List<SinhVienViewModel> sv = new List<SinhVienViewModel>();
-            if (listSv != null && listSv.Any())
-            {
-                foreach (var item in listSv)
-                {
-                    var khoa = ctx.TBLKhoas.FirstOrDefault(x => x.Makhoa == item.Makhoa);
-                    sv.Add(new SinhVienViewModel()
-                    {
-                        Masv = item.Masv,
-                        Hotensv = item.Hotensv,
-                        Namsinh = item.Namsinh,
-                        Quequan = item.Quequan,
-                        Makhoa = item.Makhoa,
-                        Tenkhoa = khoa.Tenkhoa,
-                    });
-                }
-            }
-            return sv;
+            return sinhVien;
         }
 
-        public TBLSinhVien getSinhVien(int? maSv)
+        public TBLSinhVien GetSinhVien(int? maSv)
         {
             var sv = ctx.TBLSinhViens.Where(x => x.Masv == maSv).FirstOrDefault();
             return sv;
         }
-        public TBLSinhVien editSinhVien(TBLSinhVien model)
+        public TBLSinhVien EditSinhVien(TBLSinhVien model)
         {
             try
             {
@@ -117,7 +68,7 @@ namespace KendoTest.Services
             }
 
         }
-        public TBLSinhVien deleteSinhVien(int? maSv)
+        public TBLSinhVien DeleteSinhVien(int? maSv)
         {
             var entity = ctx.TBLSinhViens.Where(x => x.Masv == maSv).FirstOrDefault();
             ctx.TBLSinhViens.Remove(entity);
@@ -125,7 +76,7 @@ namespace KendoTest.Services
             return entity;
         }
 
-        public void createSinhVien(TBLSinhVien model)
+        public void CreateSinhVien(TBLSinhVien model)
         {
             {
             if (model != null)
@@ -135,8 +86,6 @@ namespace KendoTest.Services
         }
         public List<TBLKhoa> ListKhoa()
         {
-           // var listKhoa = ctx.TBLKhoas.ToList();
-           // return listKhoa;
             return ctx.TBLKhoas.ToList();
         }
     }

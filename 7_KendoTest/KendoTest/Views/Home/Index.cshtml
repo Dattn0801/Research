@@ -8,6 +8,11 @@
     string action = "LoadListSv";
     string controllerName = "Home";
 }
+<style>
+    th.k-header {
+        text-align: center !important;
+    }
+</style>
 <div class="row mt-1 mb-1 ">
     <div class="col">
         <h5>Danh sách sinh viên</h5>
@@ -19,14 +24,17 @@
 <script>
     function filter() {
         return {
-            hoTenSinhVien: $("#hoTenSinhVien").val(),
-            namSinh: $("#namSinh").val(),
-            queQuan: $("#queQuan").val(),
-            tenKhoa: $("#Tenkhoa").val(),
-            Makhoa: $("#Makhoa").val()
+            param: {
+            HoTen: $("#hoTenSinhVien").val(),
+            NamSinh: $("#namSinh").val(),
+            QueQuan: $("#queQuan").val(),
+            TenKhoa: $("#Tenkhoa").val(),
+            Makhoa: $("#Makhoa").val(),
+            }
         }
     }
 </script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.min.js"></script>
 
 <main>
     <div class="row">
@@ -51,44 +59,57 @@
         <div class="form-group col-3">
             <div class="form-label">
                 <label>Khoa</label>
-                @Html.DropDownListFor(x => x.Makhoa, ViewBag.ListKhoa as SelectList, "Chọn", new { @class = "form-control" })
+                @Html.DropDownListFor(x => x.Makhoa, ViewBag.ListKhoa as SelectList, "Chọn mã khoa", new { @class = "form-control" })
             </div>
         </div>
+        <!--<div class="form-group col-3">
+            <div class="form-label">
+                <label>mulitpleKhoa</label>-->
+                @*@Html.DropDownListFor(x => x.Makhoa, new MultiSelectList(x.MaKhoa, "tenkhoa", "Chọn"), new { @class = "form-control" })*@
+                @*@Html.DropDownListFor(model => model.Makhoa, new MultiSelectList(Model.Makhoa, "TenKhoa", "Text", Model.Makhoa), new { @multiple = "multiple" })*@
+            <!--</div>
+        </div>-->
         <p>
-            <input id="btnSearch" type="submit" value="Search" />
+            <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" />
         </p>
     </div>
-    @*<p>
-            Họ tên: @Html.TextBox("hoTenSinhVien")
-        </p>
-        <p>
-            Năm sinh: @Html.TextBox("namSinh")
-        </p>
-        <p>
-            Quê quán: @Html.TextBox("queQuan")
-        </p>*@
 
 
     @(Html.Kendo().Grid<KendoTest.ViewModel.SinhVienViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(sv => sv.Masv).Title("Mã");
+        columns.Bound(sv => sv.Masv).Title("Mã").Width("70px").HtmlAttributes(new { style = "text-align: center" });
         columns.Bound(sv => sv.Hotensv).Title("Họ tên");
-        columns.Bound(sv => sv.Namsinh).Title("Năm sinh");
-        columns.Bound(sv => sv.Quequan).Title("Quê quán");
-        columns.Bound(sv => sv.Tenkhoa).Title("Khoa");
-        columns.Bound(sv => sv.Masv)
+        columns.Bound(sv => sv.Namsinh).Width("100px").Title("Năm sinh").HtmlAttributes(new { style = "text-align: center" });
+        columns.Bound(sv => sv.Quequan).Width("160px").Title("Quê quán");
+        columns.Bound(sv => sv.Tenkhoa).Width("250px").Title("Khoa");
+        columns.Bound(sv => sv.Masv).Width("180px")
        .Title("")
-       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditSv", "Home") + "?maSv=#=Masv#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteSv", "Home") + "?maSv=#=Masv#'" + ">Xóa</a>");
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditSv", "Home") + "?maSv=#=Masv#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteSv", "Home") + "?maSv=#=Masv#'" + ">Xóa</a>").HtmlAttributes(new { style = "text-align: center" });
     })
+
+    .ToolBar(toolbar =>
+    {
+        toolbar.Excel();
+        toolbar.Pdf();
+
+    })
+    .Pdf(pdf => pdf.ProxyURL(Url.Action("Excel_Export_Save", "grid")))
+    .Excel(excel => excel.ProxyURL(Url.Action("Excel_Export_Save", "grid")))
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(10)
         .Read(read => read.Action(action, controllerName).Data("filter")))
-    .Pageable()
+    .HtmlAttributes(new { style = "height: 550px;" })
+    .Pageable(pageable => pageable
+        .Input(true)
+        .Numeric(false)
+    )
+    .AllowCopy(true)
     .Scrollable(scroll => scroll.Height("auto"))
-    .Sortable().Selectable()
+    .Sortable().Selectable().Resizable(r => r.Columns(true))
+
     )
 </main>
 

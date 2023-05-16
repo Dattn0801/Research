@@ -26,13 +26,13 @@
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(x => x.Magv).Title("Mã");
+        columns.Bound(x => x.Magv).Title("Mã").Width("70px").HtmlAttributes(new { style = "text-align: center" });
         columns.Bound(x => x.Hotengv).Title("Họ tên");
-        columns.Bound(x => x.Luong).Title("Lương");
+        columns.Bound(x => x.Luong).Format("{0:#,###}").Title("Lương");
         columns.Bound(x => x.Tenkhoa).Title("Tên khoa");
         columns.Bound(x => x.Magv)
        .Title("")
-       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditGV", "GiangVien") + "?maGV=#=Magv#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteGV", "GiangVien") + "?maGV=#=Magv#'" + ">Xóa</a>");
+       .ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("EditGV", "GiangVien") + "?maGV=#=Magv#'" + ">Sửa</a> | <a class='btn btn-primary' href='" + Url.Action("DeleteGV", "GiangVien") + "?maGV=#=Magv#'" + ">Xóa</a>").HtmlAttributes(new { style = "text-align: center" });
 
     })
     .DataSource(dataSource => dataSource

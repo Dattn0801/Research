@@ -12,6 +12,8 @@ namespace KendoTest.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ThucTapEntities : DbContext
     {
@@ -28,8 +30,272 @@ namespace KendoTest.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TBLDeTai> TBLDeTais { get; set; }
         public virtual DbSet<TBLGiangVien> TBLGiangViens { get; set; }
+        public virtual DbSet<TBLHuongDan> TBLHuongDans { get; set; }
         public virtual DbSet<TBLKhoa> TBLKhoas { get; set; }
         public virtual DbSet<TBLSinhVien> TBLSinhViens { get; set; }
-        public virtual DbSet<TBLHuongDan> TBLHuongDans { get; set; }
+    
+        public virtual ObjectResult<SP_GetAllSinhVien_Result> SP_GetAllSinhVien(string hoTen, Nullable<int> namSinh, string queQuan, string tenKhoa, string maKhoa)
+        {
+            var hoTenParameter = hoTen != null ?
+                new ObjectParameter("HoTen", hoTen) :
+                new ObjectParameter("HoTen", typeof(string));
+    
+            var namSinhParameter = namSinh.HasValue ?
+                new ObjectParameter("NamSinh", namSinh) :
+                new ObjectParameter("NamSinh", typeof(int));
+    
+            var queQuanParameter = queQuan != null ?
+                new ObjectParameter("QueQuan", queQuan) :
+                new ObjectParameter("QueQuan", typeof(string));
+    
+            var tenKhoaParameter = tenKhoa != null ?
+                new ObjectParameter("TenKhoa", tenKhoa) :
+                new ObjectParameter("TenKhoa", typeof(string));
+    
+            var maKhoaParameter = maKhoa != null ?
+                new ObjectParameter("MaKhoa", maKhoa) :
+                new ObjectParameter("MaKhoa", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllSinhVien_Result>("SP_GetAllSinhVien", hoTenParameter, namSinhParameter, queQuanParameter, tenKhoaParameter, maKhoaParameter);
+        }
+    
+        public virtual int SP_ThemSinVien(Nullable<int> maSV, string hoTen, Nullable<int> namSinh, string queQuan, string maKhoa)
+        {
+            var maSVParameter = maSV.HasValue ?
+                new ObjectParameter("MaSV", maSV) :
+                new ObjectParameter("MaSV", typeof(int));
+    
+            var hoTenParameter = hoTen != null ?
+                new ObjectParameter("HoTen", hoTen) :
+                new ObjectParameter("HoTen", typeof(string));
+    
+            var namSinhParameter = namSinh.HasValue ?
+                new ObjectParameter("NamSinh", namSinh) :
+                new ObjectParameter("NamSinh", typeof(int));
+    
+            var queQuanParameter = queQuan != null ?
+                new ObjectParameter("QueQuan", queQuan) :
+                new ObjectParameter("QueQuan", typeof(string));
+    
+            var maKhoaParameter = maKhoa != null ?
+                new ObjectParameter("MaKhoa", maKhoa) :
+                new ObjectParameter("MaKhoa", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ThemSinVien", maSVParameter, hoTenParameter, namSinhParameter, queQuanParameter, maKhoaParameter);
+        }
+    
+        public virtual int SP_DT_AddEditDeTai(string maDT, string tenDT, Nullable<int> kinhPhi, string noiThucTap)
+        {
+            var maDTParameter = maDT != null ?
+                new ObjectParameter("MaDT", maDT) :
+                new ObjectParameter("MaDT", typeof(string));
+    
+            var tenDTParameter = tenDT != null ?
+                new ObjectParameter("TenDT", tenDT) :
+                new ObjectParameter("TenDT", typeof(string));
+    
+            var kinhPhiParameter = kinhPhi.HasValue ?
+                new ObjectParameter("KinhPhi", kinhPhi) :
+                new ObjectParameter("KinhPhi", typeof(int));
+    
+            var noiThucTapParameter = noiThucTap != null ?
+                new ObjectParameter("NoiThucTap", noiThucTap) :
+                new ObjectParameter("NoiThucTap", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DT_AddEditDeTai", maDTParameter, tenDTParameter, kinhPhiParameter, noiThucTapParameter);
+        }
+    
+        public virtual ObjectResult<SP_DT_GetAllDeTai_Result> SP_DT_GetAllDeTai(string maDT, string tenDT, Nullable<int> kinhPhi, string noiThucTap)
+        {
+            var maDTParameter = maDT != null ?
+                new ObjectParameter("MaDT", maDT) :
+                new ObjectParameter("MaDT", typeof(string));
+    
+            var tenDTParameter = tenDT != null ?
+                new ObjectParameter("TenDT", tenDT) :
+                new ObjectParameter("TenDT", typeof(string));
+    
+            var kinhPhiParameter = kinhPhi.HasValue ?
+                new ObjectParameter("KinhPhi", kinhPhi) :
+                new ObjectParameter("KinhPhi", typeof(int));
+    
+            var noiThucTapParameter = noiThucTap != null ?
+                new ObjectParameter("NoiThucTap", noiThucTap) :
+                new ObjectParameter("NoiThucTap", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_DT_GetAllDeTai_Result>("SP_DT_GetAllDeTai", maDTParameter, tenDTParameter, kinhPhiParameter, noiThucTapParameter);
+        }
+    
+        public virtual int SP_GV_AddEditGiangVien(string maGV, string hoTen, Nullable<int> luong, string maKhoa)
+        {
+            var maGVParameter = maGV != null ?
+                new ObjectParameter("MaGV", maGV) :
+                new ObjectParameter("MaGV", typeof(string));
+    
+            var hoTenParameter = hoTen != null ?
+                new ObjectParameter("HoTen", hoTen) :
+                new ObjectParameter("HoTen", typeof(string));
+    
+            var luongParameter = luong.HasValue ?
+                new ObjectParameter("Luong", luong) :
+                new ObjectParameter("Luong", typeof(int));
+    
+            var maKhoaParameter = maKhoa != null ?
+                new ObjectParameter("MaKhoa", maKhoa) :
+                new ObjectParameter("MaKhoa", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_GV_AddEditGiangVien", maGVParameter, hoTenParameter, luongParameter, maKhoaParameter);
+        }
+    
+        public virtual ObjectResult<SP_GV_GetAllGiangVien_Result> SP_GV_GetAllGiangVien(Nullable<int> maGV, string hoTen, Nullable<decimal> luong, string maKhoa)
+        {
+            var maGVParameter = maGV.HasValue ?
+                new ObjectParameter("MaGV", maGV) :
+                new ObjectParameter("MaGV", typeof(int));
+    
+            var hoTenParameter = hoTen != null ?
+                new ObjectParameter("HoTen", hoTen) :
+                new ObjectParameter("HoTen", typeof(string));
+    
+            var luongParameter = luong.HasValue ?
+                new ObjectParameter("Luong", luong) :
+                new ObjectParameter("Luong", typeof(decimal));
+    
+            var maKhoaParameter = maKhoa != null ?
+                new ObjectParameter("MaKhoa", maKhoa) :
+                new ObjectParameter("MaKhoa", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GV_GetAllGiangVien_Result>("SP_GV_GetAllGiangVien", maGVParameter, hoTenParameter, luongParameter, maKhoaParameter);
+        }
+    
+        public virtual int SP_HD_AddEditHuongDanDeTai(Nullable<int> id, string maSV, string maGV, string maDT, Nullable<decimal> ketQua)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var maSVParameter = maSV != null ?
+                new ObjectParameter("MaSV", maSV) :
+                new ObjectParameter("MaSV", typeof(string));
+    
+            var maGVParameter = maGV != null ?
+                new ObjectParameter("MaGV", maGV) :
+                new ObjectParameter("MaGV", typeof(string));
+    
+            var maDTParameter = maDT != null ?
+                new ObjectParameter("MaDT", maDT) :
+                new ObjectParameter("MaDT", typeof(string));
+    
+            var ketQuaParameter = ketQua.HasValue ?
+                new ObjectParameter("KetQua", ketQua) :
+                new ObjectParameter("KetQua", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_HD_AddEditHuongDanDeTai", idParameter, maSVParameter, maGVParameter, maDTParameter, ketQuaParameter);
+        }
+    
+        public virtual ObjectResult<SP_HD_HuongDanDeTai_Result> SP_HD_HuongDanDeTai(Nullable<int> maSV, Nullable<int> maGV, string maDT, Nullable<decimal> ketQua)
+        {
+            var maSVParameter = maSV.HasValue ?
+                new ObjectParameter("MaSV", maSV) :
+                new ObjectParameter("MaSV", typeof(int));
+    
+            var maGVParameter = maGV.HasValue ?
+                new ObjectParameter("MaGV", maGV) :
+                new ObjectParameter("MaGV", typeof(int));
+    
+            var maDTParameter = maDT != null ?
+                new ObjectParameter("MaDT", maDT) :
+                new ObjectParameter("MaDT", typeof(string));
+    
+            var ketQuaParameter = ketQua.HasValue ?
+                new ObjectParameter("KetQua", ketQua) :
+                new ObjectParameter("KetQua", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_HD_HuongDanDeTai_Result>("SP_HD_HuongDanDeTai", maSVParameter, maGVParameter, maDTParameter, ketQuaParameter);
+        }
+    
+        public virtual int SP_KHOA_AddEditKhoa(string maKhoa, string tenKhoa, string soDienThoai)
+        {
+            var maKhoaParameter = maKhoa != null ?
+                new ObjectParameter("MaKhoa", maKhoa) :
+                new ObjectParameter("MaKhoa", typeof(string));
+    
+            var tenKhoaParameter = tenKhoa != null ?
+                new ObjectParameter("TenKhoa", tenKhoa) :
+                new ObjectParameter("TenKhoa", typeof(string));
+    
+            var soDienThoaiParameter = soDienThoai != null ?
+                new ObjectParameter("SoDienThoai", soDienThoai) :
+                new ObjectParameter("SoDienThoai", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_KHOA_AddEditKhoa", maKhoaParameter, tenKhoaParameter, soDienThoaiParameter);
+        }
+    
+        public virtual ObjectResult<SP_KHOA_GetAllKhoa_Result> SP_KHOA_GetAllKhoa(string maKhoa, string tenKhoa, string dienThoai)
+        {
+            var maKhoaParameter = maKhoa != null ?
+                new ObjectParameter("MaKhoa", maKhoa) :
+                new ObjectParameter("MaKhoa", typeof(string));
+    
+            var tenKhoaParameter = tenKhoa != null ?
+                new ObjectParameter("TenKhoa", tenKhoa) :
+                new ObjectParameter("TenKhoa", typeof(string));
+    
+            var dienThoaiParameter = dienThoai != null ?
+                new ObjectParameter("DienThoai", dienThoai) :
+                new ObjectParameter("DienThoai", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_KHOA_GetAllKhoa_Result>("SP_KHOA_GetAllKhoa", maKhoaParameter, tenKhoaParameter, dienThoaiParameter);
+        }
+    
+        public virtual int SP_SV_AddEditSinhVien(Nullable<int> maSV, string hoTen, Nullable<int> namSinh, string queQuan, string maKhoa)
+        {
+            var maSVParameter = maSV.HasValue ?
+                new ObjectParameter("MaSV", maSV) :
+                new ObjectParameter("MaSV", typeof(int));
+    
+            var hoTenParameter = hoTen != null ?
+                new ObjectParameter("HoTen", hoTen) :
+                new ObjectParameter("HoTen", typeof(string));
+    
+            var namSinhParameter = namSinh.HasValue ?
+                new ObjectParameter("NamSinh", namSinh) :
+                new ObjectParameter("NamSinh", typeof(int));
+    
+            var queQuanParameter = queQuan != null ?
+                new ObjectParameter("QueQuan", queQuan) :
+                new ObjectParameter("QueQuan", typeof(string));
+    
+            var maKhoaParameter = maKhoa != null ?
+                new ObjectParameter("MaKhoa", maKhoa) :
+                new ObjectParameter("MaKhoa", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_SV_AddEditSinhVien", maSVParameter, hoTenParameter, namSinhParameter, queQuanParameter, maKhoaParameter);
+        }
+    
+        public virtual ObjectResult<SP_SV_GetAllSinhVien_Result> SP_SV_GetAllSinhVien(string hoTen, Nullable<int> namSinh, string queQuan, string tenKhoa, string maKhoa)
+        {
+            var hoTenParameter = hoTen != null ?
+                new ObjectParameter("HoTen", hoTen) :
+                new ObjectParameter("HoTen", typeof(string));
+    
+            var namSinhParameter = namSinh.HasValue ?
+                new ObjectParameter("NamSinh", namSinh) :
+                new ObjectParameter("NamSinh", typeof(int));
+    
+            var queQuanParameter = queQuan != null ?
+                new ObjectParameter("QueQuan", queQuan) :
+                new ObjectParameter("QueQuan", typeof(string));
+    
+            var tenKhoaParameter = tenKhoa != null ?
+                new ObjectParameter("TenKhoa", tenKhoa) :
+                new ObjectParameter("TenKhoa", typeof(string));
+    
+            var maKhoaParameter = maKhoa != null ?
+                new ObjectParameter("MaKhoa", maKhoa) :
+                new ObjectParameter("MaKhoa", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SV_GetAllSinhVien_Result>("SP_SV_GetAllSinhVien", hoTenParameter, namSinhParameter, queQuanParameter, tenKhoaParameter, maKhoaParameter);
+        }
     }
 }
