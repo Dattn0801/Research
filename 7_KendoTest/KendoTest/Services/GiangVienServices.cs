@@ -10,26 +10,23 @@ namespace KendoTest.Services
     public class GiangVienServices
     {
         ThucTapEntities ctx = new ThucTapEntities();
-        public List<GiangVienViewModel> loadList()
+        public List<GiangVienViewModel> loadList(ParamGiangVien param)
         {
-            var lst = ctx.TBLGiangViens.ToList();
-            List<GiangVienViewModel> k = new List<GiangVienViewModel>();
-            if (lst != null && lst.Any())
+            var listSV = ctx.SP_GV_GetAllGiangVien(param.MaGV, param.HoTen,param.Luong,param.MaKhoa).ToList();
+            List<GiangVienViewModel> result = new List<GiangVienViewModel>();
+
+            if (listSV != null && listSV.Count > 0)
             {
-                foreach (var item in lst)
+                result = listSV.Select(m => new GiangVienViewModel
                 {
-                    var gv = ctx.TBLKhoas.FirstOrDefault( x =>x.Makhoa == item.Makhoa);
-                    k.Add(new GiangVienViewModel()
-                    {
-                        Magv = item.Magv,
-                        Hotengv = item.Hotengv,
-                        Luong = item.Luong,                     
-                        Makhoa = item.Makhoa,   
-                        Tenkhoa = gv.Tenkhoa,
-                    });
-                }
+                    Magv = m.Magv,
+                    Hotengv = m.Hotengv,
+                    Luong = m.Luong,
+                    Makhoa= m.Makhoa,
+                    Tenkhoa = m.Tenkhoa,
+                }).ToList();
             }
-            return k;
+            return result;        
         }
 
         //createkhoa

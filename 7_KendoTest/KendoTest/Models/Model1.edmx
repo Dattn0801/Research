@@ -427,6 +427,7 @@
           <Property Type="String" Name="Hotengv" Nullable="true" MaxLength="250" />
           <Property Type="Decimal" Name="Luong" Nullable="true" Precision="10" Scale="2" />
           <Property Type="String" Name="Tenkhoa" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Makhoa" Nullable="false" MaxLength="250" />
         </ComplexType>
         <ComplexType Name="SP_HD_HuongDanDeTai_Result">
           <Property Type="String" Name="Hotensv" Nullable="true" MaxLength="250" />
@@ -533,6 +534,7 @@
                 <ScalarProperty Name="Hotengv" ColumnName="Hotengv" />
                 <ScalarProperty Name="Luong" ColumnName="Luong" />
                 <ScalarProperty Name="Tenkhoa" ColumnName="Tenkhoa" />
+                <ScalarProperty Name="Makhoa" ColumnName="Makhoa" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -17,5 +17,6 @@ namespace KendoTest.Models
         public string Hotengv { get; set; }
         public Nullable<decimal> Luong { get; set; }
         public string Tenkhoa { get; set; }
+        public string Makhoa { get; set; }
     }
 }

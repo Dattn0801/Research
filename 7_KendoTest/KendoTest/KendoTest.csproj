@@ -202,6 +202,8 @@
     <Compile Include="ViewModel\GiangVien.cs" />
     <Compile Include="ViewModel\HuongDan.cs" />
     <Compile Include="ViewModel\Khoa.cs" />
+    <Compile Include="ViewModel\ParamDeTai.cs" />
+    <Compile Include="ViewModel\ParamGiangVien.cs" />
     <Compile Include="ViewModel\ParamKhoa.cs" />
     <Compile Include="ViewModel\ParamSinhVien.cs" />
     <Compile Include="ViewModel\SinhVien.cs" />

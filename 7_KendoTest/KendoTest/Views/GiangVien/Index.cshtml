@@ -1,27 +1,64 @@
-﻿@{
+﻿@model KendoTest.Models.TBLGiangVien
+@using Kendo.Mvc;
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.UI.Fluent;
+@using KendoTest.Models;
+
+@{
+    var thuctap = Model;
     ViewBag.Title = "Home Page";
+    string action = "LoadList";
+    string controllerName = "GiangVien";
 }
-<div class="row mt-1 mb-1 ">
-    <div class="col">
-        <h5>
-            Danh sách giảng viên
-        </h5>
-        <div class="float-lg-end">
-            @Html.ActionLink("Thêm", "CreateGV", "GiangVien", null, new { @class = "btn btn-primary" })
+<script>
+    function filter() {
+        return {
+            param: {
+                MaGV: $("#MaGV").val(),
+                HoTen: $("#HoTen").val(),
+                Luong: $("#Luong").val(),
+                TenKhoa: $("#Tenkhoa").val(),
+                MaKhoa: $("#Makhoa").val(),
+            }
+        }
+    }
+</script>
+
+
+<main>
+    <div class="row mt-1 mb-1 ">
+        <div class="col">
+            <h5>
+                Danh sách giảng viên
+            </h5>
+            <div class="float-lg-end">
+                @Html.ActionLink("Thêm", "CreateGV", "GiangVien", null, new { @class = "btn btn-primary" })
+            </div>
         </div>
     </div>
-</div>
-<main>
-    @using Kendo.Mvc;
-    @using Kendo.Mvc.UI;
-    @using Kendo.Mvc.UI.Fluent;
-    @using KendoTest.Models;
-    @{
-        var thuctap = Model;
-        ViewBag.Title = "Home Page";
-        string action = "LoadList";
-        string controllerName = "GiangVien";
-    }
+    <div class="row">
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Họ tên</label>
+                @Html.TextBox("HoTen", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Lương</label>
+                @Html.TextBox("Luong", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-3">
+            <div class="form-label">
+                <label>Khoa</label>
+                @Html.DropDownListFor(x => x.Makhoa, ViewBag.ListKhoa as SelectList, "Chọn mã khoa", new { @class = "form-control" })
+            </div>
+        </div>
+        <p>
+            <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" />
+        </p>
+    </div>
     @(Html.Kendo().Grid<KendoTest.ViewModel.GiangVienViewModel>()
     .Name("grid")
     .Columns(columns =>
@@ -38,9 +75,15 @@
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(10)
-        .Read(read => read.Action(action, controllerName)))
+        .Read(read => read.Action(action, controllerName).Data("filter")))
     .Pageable()
     .Scrollable(scroll => scroll.Height("auto"))
     .Sortable().Selectable()
     )
 </main>
+<script>
+    $("#btnSearch").click(function () {
+        var grid = $("#grid").data('kendoGrid');
+        grid.dataSource.read()
+    })
+</script>

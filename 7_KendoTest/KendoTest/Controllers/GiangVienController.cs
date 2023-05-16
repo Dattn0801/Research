@@ -2,6 +2,7 @@
 using Kendo.Mvc.UI;
 using KendoTest.Models;
 using KendoTest.Services;
+using KendoTest.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,10 @@ namespace KendoTest.Controllers
         GiangVienServices gvService = new GiangVienServices();
 
         //list
-        public ActionResult LoadList([DataSourceRequest] DataSourceRequest request)
+        public ActionResult LoadList([DataSourceRequest] DataSourceRequest request,ParamGiangVien param)
         {
-            var listSV = gvService.loadList();
+           
+            var listSV = gvService.loadList(param);
             return Json(listSV.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -64,6 +66,8 @@ namespace KendoTest.Controllers
 
         public ActionResult Index()
         {
+            var listKhoa = gvService.ListKhoa();
+            ViewBag.ListKhoa = new SelectList(listKhoa, "Makhoa", "Tenkhoa");
             return View();
         }
     }

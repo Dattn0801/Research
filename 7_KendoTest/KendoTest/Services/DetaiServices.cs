@@ -11,24 +11,39 @@ namespace KendoTest.Services
     {
         ThucTapEntities ctx = new ThucTapEntities();
 
-        public List<DetaiViewModel> loadList()
+        public List<DetaiViewModel> LoadList(ParamDeTai param)
         {
-            var lst = ctx.TBLDeTais.ToList();
-            List<DetaiViewModel> k = new List<DetaiViewModel>();
-            if (lst != null && lst.Any())
+            var listDeTai = ctx.SP_DT_GetAllDeTai(param.MaDT,param.TenDT, param.KinhPhi, param.NoiThucTap).ToList();
+            List<DetaiViewModel> result = new List<DetaiViewModel>();
+
+            if (listDeTai != null && listDeTai.Count > 0)
             {
-                foreach (var item in lst)
+                result = listDeTai.Select(m => new DetaiViewModel
                 {
-                    k.Add(new DetaiViewModel()
-                    {
-                        Madt = item.Madt,
-                        Tendt = item.Tendt,
-                        Kinhphi = item.Kinhphi,
-                        Noithuctap = item.Noithuctap,
-                    });
-                }
+                    Madt = m.Madt,
+                    Tendt = m.Tendt,
+                    Kinhphi = m.Kinhphi,
+                    Noithuctap = m.Noithuctap
+                }).ToList();
             }
-            return k;
+            return result;
+
+            //var lst = ctx.TBLDeTais.ToList();
+            //List<DetaiViewModel> k = new List<DetaiViewModel>();
+            //if (lst != null && lst.Any())
+            //{
+            //    foreach (var item in lst)
+            //    {
+            //        k.Add(new DetaiViewModel()
+            //        {
+            //            Madt = item.Madt,
+            //            Tendt = item.Tendt,
+            //            Kinhphi = item.Kinhphi,
+            //            Noithuctap = item.Noithuctap,
+            //        });
+            //    }
+            //}
+            //return k;
         }
 
         //createkhoa

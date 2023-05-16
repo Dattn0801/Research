@@ -8,6 +8,17 @@
     string action = "LoadList";
     string controllerName = "Detai";
 }
+<script>
+    function filter() {
+        return {
+            param: {
+                TenDT: $("#TenDT").val(),
+                KinhPhi: $("#KinhPhi").val(),
+                NoiThucTap: $("#NoiThucTap").val(),
+            }
+        }
+    }
+</script>
 <style>
     th.k-header {
         text-align: center !important;
@@ -25,28 +36,28 @@
     <div class="row">
         <div class="form-group col-3">
             <div class="form-label">
-                <label>Họ tên</label>
-                @Html.TextBox("hoTenSinhVien", null, new { @class = "form-control" })
+                <label>Tên đề tài</label>
+                @Html.TextBox("TenDT", null, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group col-3">
             <div class="form-label">
-                <label>Năm sinh</label>
-                @Html.TextBox("namSinh", null, new { @class = "form-control" })
+                <label>Kinh phí</label>
+                @Html.TextBox("KinhPhi", null, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group col-3">
             <div class="form-label">
-                <label>Quê quán</label>
-                @Html.TextBox("queQuan", null, new { @class = "form-control" })
+                <label>Nơi thực tập</label>
+                @Html.TextBox("NoiThucTap", null, new { @class = "form-control" })
             </div>
         </div>
         @*<div class="form-group col-3">
-            <div class="form-label">
-                <label>Khoa</label>
-                @Html.DropDownListFor(x => x.Makhoa, ViewBag.ListKhoa as SelectList, "Chọn mã khoa", new { @class = "form-control" })
-            </div>
-        </div>*@
+                <div class="form-label">
+                    <label>Khoa</label>
+                    @Html.DropDownListFor(x => x.Makhoa, ViewBag.ListKhoa as SelectList, "Chọn mã khoa", new { @class = "form-control" })
+                </div>
+            </div>*@
         <!--<div class="form-group col-3">
             <div class="form-label">
                 <label>mulitpleKhoa</label>-->
@@ -75,9 +86,28 @@
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(10)
-        .Read(read => read.Action(action, controllerName)))
+        .Read(read => read.Action(action, controllerName).Data("filter")))
     .Pageable()
     .Scrollable(scroll => scroll.Height("auto"))
     .Sortable().Selectable()
     )
 </main>
+
+<script>
+    $("#btnSearch").click(function () {
+        $.ajax({
+            url: "/Detai/LoadList",
+            type: "POST",
+            data: filter(),
+            success: function (data) {
+                if (data.Error == "01") {
+                    alert(data.Message);
+                }
+                var grid = $("#grid").data('kendoGrid');
+                grid.dataSource.read()
+            }
+        })
+    })
+</script>
+
+
