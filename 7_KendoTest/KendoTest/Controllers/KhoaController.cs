@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using System.Web.Services.Description;
 using KendoTest.Models;
+using KendoTest.ViewModel;
 
 namespace KendoTest.Controllers
 {
@@ -20,13 +21,13 @@ namespace KendoTest.Controllers
             return View();
         }
         //list
-        public ActionResult LoadListKhoa([DataSourceRequest] DataSourceRequest request,string maKhoa , string tenKhoa, string soDienThoai)
+        public ActionResult LoadListKhoa([DataSourceRequest] DataSourceRequest request,ParamKhoa param)
         {
             //if (string.IsNullOrEmpty(maKhoa))
             //{
             //    return Json(new { Error = "01", Message = "Vui long nhap truong bat buoc" });
             //}
-            var listKhoa = khoaServices.loadListKhoa(maKhoa, tenKhoa, soDienThoai);
+            var listKhoa = khoaServices.LoadListKhoa(param);
             return Json(listKhoa.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

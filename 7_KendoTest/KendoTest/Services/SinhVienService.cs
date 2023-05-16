@@ -20,7 +20,7 @@ namespace KendoTest.Services
         {
             var listSV = ctx.SP_SV_GetAllSinhVien(param.HoTen, param.NamSinh, param.QueQuan, param.TenKhoa, param.MaKhoa).ToList();
             List<SinhVienViewModel> sinhVien = new List<SinhVienViewModel>();
-
+                            
             if(listSV != null && listSV.Count > 0)
             {
                 sinhVien = listSV.Select(m => new SinhVienViewModel
