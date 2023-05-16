@@ -2,6 +2,7 @@
 using Kendo.Mvc.UI;
 using KendoTest.Models;
 using KendoTest.Services;
+using KendoTest.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace KendoTest.Controllers
             return View();
         }
         //list
-        public ActionResult LoadList([DataSourceRequest] DataSourceRequest request)
+        public ActionResult LoadList([DataSourceRequest] DataSourceRequest request,ParamDeTai param)
         {
-            var list = detaiServices.loadList();
+            var list = detaiServices.LoadList(param);
             return Json(list.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
