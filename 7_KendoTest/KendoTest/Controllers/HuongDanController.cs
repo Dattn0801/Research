@@ -2,6 +2,7 @@
 using Kendo.Mvc.UI;
 using KendoTest.Models;
 using KendoTest.Services;
+using KendoTest.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,9 @@ namespace KendoTest.Controllers
 
         //list
         [HttpPost]
-        public ActionResult LoadList([DataSourceRequest] DataSourceRequest request, string tenSV, string maDT, int? maGV, decimal? KQ)
+        public ActionResult LoadList([DataSourceRequest] DataSourceRequest request,ParamHuongDan param)
         {
-            var list = huongdanService.loadList(tenSV, maDT, maGV, KQ);
+            var list = huongdanService.loadList(param);
             return Json(list.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult CreateHD()
@@ -82,6 +83,10 @@ namespace KendoTest.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult test()
+        {
+            return View();
+        }
 
     }
 }

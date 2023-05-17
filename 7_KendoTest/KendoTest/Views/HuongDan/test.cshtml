@@ -1,0 +1,78 @@
+﻿@using Kendo.Mvc;
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.UI.Fluent;
+@model KendoTest.Models.TBLSinhVien
+
+@(Html.Kendo().Window()
+    .Name("window")
+    .Content(@<text>
+         <div class="row">
+             @Html.TextBox("hoTenSinhVien", null, new { @class = "form-control" })
+
+            <p>
+                <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" />
+            </p>
+        </div>
+    </text>)
+    .Width(500)
+    .Draggable(false)
+    .Title("EGG CHAIR")
+    .Actions(actions => actions
+        .Custom("custom")
+        .Minimize()
+        .Maximize()
+        .Close()
+    )
+    .Events(events=> events.Close("close"))
+)
+
+<span id="undo" style="display:none" class="k-button hidden-on-narrow">Click here to open the window.</span>
+
+<div class="responsive-message"></div>
+
+<script type="text/javascript">
+    function close() {
+        $("#undo").fadeIn(300);
+    }
+
+    $(document).ready(function () {
+        var dialog = $("#window");
+        $("#undo")
+            .bind("click", function () {
+                $("#window").data("kendoWindow").open();
+                $("#undo").fadeOut(300);
+            });
+
+        dialog.data("kendoWindow").wrapper
+            .find(".k-i-custom").parent().click(function (e) {
+                alert("Custom action button clicked");
+                e.preventDefault();
+            });
+    });
+
+</script>
+
+<style>
+
+    #example {
+        min-height: 400px;
+    }
+
+    #undo {
+        text-align: center;
+        position: absolute;
+        white-space: nowrap;
+        padding: 1em;
+        cursor: pointer;
+    }
+
+    .k-window {
+        z-index: 100000;
+    }
+
+    @@media screen and (max-width: 1023px) {
+        div.k-window {
+            display: none !important;
+        }
+    }
+</style>

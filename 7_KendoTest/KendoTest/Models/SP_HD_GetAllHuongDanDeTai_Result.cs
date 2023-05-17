@@ -11,11 +11,13 @@ namespace KendoTest.Models
 {
     using System;
     
-    public partial class SP_HD_HuongDanDeTai_Result
+    public partial class SP_HD_GetAllHuongDanDeTai_Result
     {
         public string Hotensv { get; set; }
         public string Hotengv { get; set; }
         public string Madt { get; set; }
         public Nullable<decimal> KetQua { get; set; }
+        public string Tendt { get; set; }
+        public int Id { get; set; }
     }
 }

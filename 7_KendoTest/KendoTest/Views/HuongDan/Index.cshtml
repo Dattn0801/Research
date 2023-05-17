@@ -12,10 +12,12 @@
 <script>
     function filter() {
         return {
-            tenSV: $("#tenSV").val().trim(),
-            maGV: $("#Magv").val().trim(),
-            maDT: $("#Madt").val().trim(),
-            KQ: $("#KQ").val().trim(),
+            param: {
+                TenSV: $("#TenSV").val(),
+                MaDT: $("#Madt").val(),
+                MaGV: $("#Magv").val(),
+                KetQua: $("#KetQua").val()
+            }     
         }
     }
 </script>
@@ -34,7 +36,7 @@
         <div class="form-group col-3">
             <div class="form-label">
                 <label>Tên sinh viên </label>
-                @Html.TextBox("tenSV", null, new { @class = "form-control" })
+                @Html.TextBox("TenSV", null, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group col-3">
@@ -53,7 +55,7 @@
         <div class="form-group col-3">
             <div class="form-label">
                 <label>Kết quả</label>
-                @Html.TextBox("KQ", null, new { @class = "form-control" })
+                @Html.TextBox("KetQua", null, new { @class = "form-control" })
             </div>
         </div>
         @*<div class="form-group col-3">

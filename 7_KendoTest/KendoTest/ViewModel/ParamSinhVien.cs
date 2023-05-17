@@ -12,5 +12,6 @@ namespace KendoTest.ViewModel
         public string QueQuan { get; set; }
         public string TenKhoa { get; set; } 
         public string MaKhoa { get; set; }  
+        public int? MaSinhVien { get; set; }
     }
 }

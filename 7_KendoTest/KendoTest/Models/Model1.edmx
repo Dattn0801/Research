@@ -109,6 +109,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_DT_AddEditDeTai" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MaDT" Type="nvarchar" Mode="In" />
           <Parameter Name="TenDT" Type="nvarchar" Mode="In" />
@@ -140,11 +157,19 @@
           <Parameter Name="MaDT" Type="nvarchar" Mode="In" />
           <Parameter Name="KetQua" Type="decimal" Mode="In" />
         </Function>
-        <Function Name="SP_HD_HuongDanDeTai" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="MaSV" Type="int" Mode="In" />
+        <Function Name="SP_HD_GetAllHuongDanDeTai" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TenSV" Type="nvarchar" Mode="In" />
           <Parameter Name="MaGV" Type="int" Mode="In" />
           <Parameter Name="MaDT" Type="nvarchar" Mode="In" />
           <Parameter Name="KetQua" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_KHOA_AddEditKhoa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
@@ -155,6 +180,11 @@
           <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
           <Parameter Name="TenKhoa" Type="nvarchar" Mode="In" />
           <Parameter Name="DienThoai" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_SV_AddEditSinhVien" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MaSV" Type="int" Mode="In" />
@@ -169,7 +199,9 @@
           <Parameter Name="QueQuan" Type="nvarchar" Mode="In" />
           <Parameter Name="TenKhoa" Type="nvarchar" Mode="In" />
           <Parameter Name="MaKhoa" Type="nvarchar" Mode="In" />
+          <Parameter Name="MaSinhVien" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ThucTapModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBLDeTai" EntityType="Self.TBLDeTai" Schema="dbo" store:Type="Tables" />
@@ -378,12 +410,6 @@
             <Parameter Name="MaDT" Mode="In" Type="String" />
             <Parameter Name="KetQua" Mode="In" Type="Decimal" />
           </FunctionImport>
-          <FunctionImport Name="SP_HD_HuongDanDeTai" ReturnType="Collection(ThucTapModel.SP_HD_HuongDanDeTai_Result)">
-            <Parameter Name="MaSV" Mode="In" Type="Int32" />
-            <Parameter Name="MaGV" Mode="In" Type="Int32" />
-            <Parameter Name="MaDT" Mode="In" Type="String" />
-            <Parameter Name="KetQua" Mode="In" Type="Decimal" />
-          </FunctionImport>
           <FunctionImport Name="SP_KHOA_AddEditKhoa">
             <Parameter Name="MaKhoa" Mode="In" Type="String" />
             <Parameter Name="TenKhoa" Mode="In" Type="String" />
@@ -407,6 +433,29 @@
             <Parameter Name="QueQuan" Mode="In" Type="String" />
             <Parameter Name="TenKhoa" Mode="In" Type="String" />
             <Parameter Name="MaKhoa" Mode="In" Type="String" />
+            <Parameter Name="MaSinhVien" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_HD_GetAllHuongDanDeTai" ReturnType="Collection(ThucTapModel.SP_HD_GetAllHuongDanDeTai_Result)">
+            <Parameter Name="TenSV" Mode="In" Type="String" />
+            <Parameter Name="MaGV" Mode="In" Type="Int32" />
+            <Parameter Name="MaDT" Mode="In" Type="String" />
+            <Parameter Name="KetQua" Mode="In" Type="Decimal" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_GetAllSinhVien_Result">
@@ -429,12 +478,6 @@
           <Property Type="String" Name="Tenkhoa" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="Makhoa" Nullable="false" MaxLength="250" />
         </ComplexType>
-        <ComplexType Name="SP_HD_HuongDanDeTai_Result">
-          <Property Type="String" Name="Hotensv" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="Hotengv" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="Madt" Nullable="false" MaxLength="250" />
-          <Property Type="Decimal" Name="KetQua" Nullable="true" Precision="5" Scale="2" />
-        </ComplexType>
         <ComplexType Name="SP_KHOA_GetAllKhoa_Result">
           <Property Type="String" Name="Makhoa" Nullable="false" MaxLength="250" />
           <Property Type="String" Name="Tenkhoa" Nullable="true" MaxLength="250" />
@@ -446,6 +489,25 @@
           <Property Type="Int32" Name="Masv" Nullable="false" />
           <Property Type="Int32" Name="Namsinh" Nullable="true" />
           <Property Type="String" Name="Quequan" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_HD_GetAllHuongDanDeTai_Result">
+          <Property Type="String" Name="Hotensv" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Hotengv" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Madt" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="KetQua" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="String" Name="Tendt" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -539,16 +601,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_HD_AddEditHuongDanDeTai" FunctionName="ThucTapModel.Store.SP_HD_AddEditHuongDanDeTai" />
-          <FunctionImportMapping FunctionImportName="SP_HD_HuongDanDeTai" FunctionName="ThucTapModel.Store.SP_HD_HuongDanDeTai">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ThucTapModel.SP_HD_HuongDanDeTai_Result">
-                <ScalarProperty Name="Hotensv" ColumnName="Hotensv" />
-                <ScalarProperty Name="Hotengv" ColumnName="Hotengv" />
-                <ScalarProperty Name="Madt" ColumnName="Madt" />
-                <ScalarProperty Name="KetQua" ColumnName="KetQua" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_KHOA_AddEditKhoa" FunctionName="ThucTapModel.Store.SP_KHOA_AddEditKhoa" />
           <FunctionImportMapping FunctionImportName="SP_KHOA_GetAllKhoa" FunctionName="ThucTapModel.Store.SP_KHOA_GetAllKhoa">
             <ResultMapping>
@@ -568,6 +620,21 @@
                 <ScalarProperty Name="Masv" ColumnName="Masv" />
                 <ScalarProperty Name="Namsinh" ColumnName="Namsinh" />
                 <ScalarProperty Name="Quequan" ColumnName="Quequan" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ThucTapModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ThucTapModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ThucTapModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="SP_HD_GetAllHuongDanDeTai" FunctionName="ThucTapModel.Store.SP_HD_GetAllHuongDanDeTai">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ThucTapModel.SP_HD_GetAllHuongDanDeTai_Result">
+                <ScalarProperty Name="Hotensv" ColumnName="Hotensv" />
+                <ScalarProperty Name="Hotengv" ColumnName="Hotengv" />
+                <ScalarProperty Name="Madt" ColumnName="Madt" />
+                <ScalarProperty Name="KetQua" ColumnName="KetQua" />
+                <ScalarProperty Name="Tendt" ColumnName="Tendt" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

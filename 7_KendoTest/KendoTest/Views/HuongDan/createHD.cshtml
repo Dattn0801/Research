@@ -1,4 +1,7 @@
 ﻿@model KendoTest.Models.TBLHuongDan
+@using Kendo.Mvc;
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.UI.Fluent;
 @{
     ViewBag.Title = "CreateSv";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,42 +10,180 @@
     var ListSV = ViewBag.ListSV;
     var ListGV = ViewBag.ListGV;
     var ListDT = ViewBag.ListDT;
+    string action = "LoadListSv";
+    string controllerName = "Home";
+
+    string checkbox = "<input type='checkbox' class='checkbox-select' value='#=Masv#' />";
 
 }
+
+<script>
+    function filter() {
+        return {
+            param: {
+                HoTen: $("#hoTenSinhVien").val(),
+                MaSinhVien: $("#MaSinhVien").val(),
+                //NamSinh: $("#namSinh").val(),
+                //QueQuan: $("#queQuan").val(),
+                //TenKhoa: $("#Tenkhoa").val(),
+                //Makhoa: $("#Makhoa").val(),
+            }
+        }
+    }
+</script>
 <div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
     <div class="k-w-300">
         @using (Html.BeginForm("CreateHD", "HuongDan", FormMethod.Post))
         {
-           
-        <div class="row">
-            <div class="form-group col-3">
-                <div class="form-label">
-                    <label>Họ tên</label>
+
+            <div class="row">
+               <div class="form-group col-3">
+                   <div class="form-label">
+                       <label>Họ tên</label>
+                   </div>
+                   @Html.TextBox("undo", "", new { @class = "form-control" })
+               </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Đề tài</label>
+                    </div>
+                    @Html.DropDownListFor(x => x.Madt, (IEnumerable<SelectListItem>)ViewBag.ListDT, "Chọn đề tài", new { @class = "form-control" })
                 </div>
-                @Html.DropDownListFor(x => x.Masv, (IEnumerable<SelectListItem>)ViewBag.ListSV, "Chọn sinh viên", new { @class = "form-control" })
-            </div>
-            <div class="form-group col-3">
-                <div class="form-label">
-                    <label>Đề tài</label>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Giảng viên</label>
+                    </div>
+                    @Html.DropDownListFor(x => x.Magv, (IEnumerable<SelectListItem>)ViewBag.ListGV, "Chọn giảng viên", new { @class = "form-control" })
                 </div>
-                @Html.DropDownListFor(x => x.Madt, (IEnumerable<SelectListItem>)ViewBag.ListDT, "Chọn đề tài", new { @class = "form-control" })
-            </div>
-            <div class="form-group col-3">
-                <div class="form-label">
-                    <label>Giảng viên</label>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Kết quả</label>
+                    </div>
+                    @Html.TextBoxFor(x => x.KetQua, new { @class = "form-control" })
                 </div>
-                @Html.DropDownListFor(x => x.Magv, (IEnumerable<SelectListItem>)ViewBag.ListGV, "Chọn giảng viên", new { @class = "form-control" })
+                
             </div>
-            <div class="form-group col-3">
-                <div class="form-label">
-                    <label>Kết quả</label>
-                </div>
-                @Html.TextBoxFor(x => x.KetQua, new { @class = "form-control" })
-            </div>
-        </div>
             <br />
             <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
 
         }
     </div>
 </div>
+
+
+@(Html.Kendo().Window().Name("window").Title("About Alvar Aalto").Visible(false)
+        .Content(
+
+    @<text>
+            <div class="row">
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Tên sinh viên</label>
+                        @Html.TextBox("hoTenSinhVien", null, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-label">
+                        <label>Mã sinh viên</label>
+                        @Html.TextBox("MaSinhVien", null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <p> <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" /> </p>
+                <p> <input id="btnSave" type="submit" value="Lưu" class="btn btn-danger" /></p>
+                @(Html.Kendo().Grid<KendoTest.ViewModel.SinhVienViewModel>()
+                .Name("grid")
+                .Columns(columns =>
+                {
+                    columns.Bound(sv => sv.Masv).Title("Mã").Width("70px").HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(sv => sv.Hotensv).Title("Họ tên");
+                    columns.Bound(sv => sv.Namsinh).Width("100px").Title("Năm sinh").HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(sv => sv.Quequan).Width("160px").Title("Quê quán");
+                    columns.Bound(sv => sv.Tenkhoa).Width("250px").Title("Khoa");
+                    columns.Bound(sv => sv.Masv).Title("<input type='checkbox' id='checkAll' />").Width(40).Sortable(false).ClientTemplate(checkbox);
+                })
+
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Excel();
+                    toolbar.Pdf();
+
+                })
+                .Pdf(pdf => pdf.ProxyURL(Url.Action("Excel_Export_Save", "grid")))
+                .Excel(excel => excel.ProxyURL(Url.Action("Excel_Export_Save", "grid")))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(10)
+                    .Read(read => read.Action(action, controllerName).Data("filter")))
+                .HtmlAttributes(new { style = "height: 550px;" })
+                .Pageable(pageable => pageable
+                    .Input(true)
+                    .Numeric(false)
+                )
+                .AllowCopy(true)
+                .Scrollable(scroll => scroll.Height("auto"))
+                .Sortable().Selectable().Resizable(r => r.Columns(true))
+
+                )
+
+
+        </div>
+
+    </text>)
+    .Draggable()
+    .Resizable()
+    .Width(600)
+    .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+    .Events(ev => ev.Close("onClose")))
+
+
+<script>
+    //search
+    $("#btnSearch").click(function () {
+        var grid = $("#grid").data('kendoGrid');
+        grid.dataSource.read()
+    })
+
+    //popup
+    function onClose() {
+        $("#undo").show();
+    }
+    $(document).ready(function () {
+        $("#undo").bind("click", function () {
+            $("#window").data("kendoWindow").open();
+
+        });
+    });
+
+    //multiple select
+    $('#checkAll').change(function () {
+        $('.checkbox-select').prop('checked', this.checked);
+    });
+
+    $('.checkbox-select').change(function () {
+        if ($('.checkbox-select:checked').length == $('.checkbox-select').length) {
+            $('#checkAll').prop('checked', true);
+        }
+        else {
+            $('#checkAll').prop('checked', false);
+        }
+    });
+   
+    var id = [];
+    $("#btnSave").on("click", function () {
+        $(".checkbox-select:checked").each(function (index, elem) {
+            if ($(elem).prop('checked') == true) {
+                id.push(elem.value)
+                //remove duplicate
+                //let IdSinhVien = id.filter((c, index) => {
+                //    return id.indexOf(c) === index;
+                //});
+                //console.log("uni", IdSinhVien)
+            }
+        });
+        console.log(id)
+    });
+</script>
+
+<style>
+</style>

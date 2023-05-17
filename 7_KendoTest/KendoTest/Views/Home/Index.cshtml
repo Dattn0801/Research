@@ -62,15 +62,12 @@
                 @Html.DropDownListFor(x => x.Makhoa, ViewBag.ListKhoa as SelectList, "Chọn mã khoa", new { @class = "form-control" })
             </div>
         </div>
-        <!--<div class="form-group col-3">
-            <div class="form-label">
-                <label>mulitpleKhoa</label>-->
-                @*@Html.DropDownListFor(x => x.Makhoa, new MultiSelectList(x.MaKhoa, "tenkhoa", "Chọn"), new { @class = "form-control" })*@
-                @*@Html.DropDownListFor(model => model.Makhoa, new MultiSelectList(Model.Makhoa, "TenKhoa", "Text", Model.Makhoa), new { @multiple = "multiple" })*@
-            <!--</div>
-        </div>-->
         <p>
             <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" />
+        </p>
+
+        <p>
+            <input id="btnSave" type="submit" value="Lưu" class="btn btn-danger" />
         </p>
     </div>
 

@@ -193,27 +193,6 @@ namespace KendoTest.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_HD_AddEditHuongDanDeTai", idParameter, maSVParameter, maGVParameter, maDTParameter, ketQuaParameter);
         }
     
-        public virtual ObjectResult<SP_HD_HuongDanDeTai_Result> SP_HD_HuongDanDeTai(Nullable<int> maSV, Nullable<int> maGV, string maDT, Nullable<decimal> ketQua)
-        {
-            var maSVParameter = maSV.HasValue ?
-                new ObjectParameter("MaSV", maSV) :
-                new ObjectParameter("MaSV", typeof(int));
-    
-            var maGVParameter = maGV.HasValue ?
-                new ObjectParameter("MaGV", maGV) :
-                new ObjectParameter("MaGV", typeof(int));
-    
-            var maDTParameter = maDT != null ?
-                new ObjectParameter("MaDT", maDT) :
-                new ObjectParameter("MaDT", typeof(string));
-    
-            var ketQuaParameter = ketQua.HasValue ?
-                new ObjectParameter("KetQua", ketQua) :
-                new ObjectParameter("KetQua", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_HD_HuongDanDeTai_Result>("SP_HD_HuongDanDeTai", maSVParameter, maGVParameter, maDTParameter, ketQuaParameter);
-        }
-    
         public virtual int SP_KHOA_AddEditKhoa(string maKhoa, string tenKhoa, string soDienThoai)
         {
             var maKhoaParameter = maKhoa != null ?
@@ -273,7 +252,7 @@ namespace KendoTest.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_SV_AddEditSinhVien", maSVParameter, hoTenParameter, namSinhParameter, queQuanParameter, maKhoaParameter);
         }
     
-        public virtual ObjectResult<SP_SV_GetAllSinhVien_Result> SP_SV_GetAllSinhVien(string hoTen, Nullable<int> namSinh, string queQuan, string tenKhoa, string maKhoa)
+        public virtual ObjectResult<SP_SV_GetAllSinhVien_Result> SP_SV_GetAllSinhVien(string hoTen, Nullable<int> namSinh, string queQuan, string tenKhoa, string maKhoa, Nullable<int> maSinhVien)
         {
             var hoTenParameter = hoTen != null ?
                 new ObjectParameter("HoTen", hoTen) :
@@ -295,7 +274,87 @@ namespace KendoTest.Models
                 new ObjectParameter("MaKhoa", maKhoa) :
                 new ObjectParameter("MaKhoa", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SV_GetAllSinhVien_Result>("SP_SV_GetAllSinhVien", hoTenParameter, namSinhParameter, queQuanParameter, tenKhoaParameter, maKhoaParameter);
+            var maSinhVienParameter = maSinhVien.HasValue ?
+                new ObjectParameter("MaSinhVien", maSinhVien) :
+                new ObjectParameter("MaSinhVien", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SV_GetAllSinhVien_Result>("SP_SV_GetAllSinhVien", hoTenParameter, namSinhParameter, queQuanParameter, tenKhoaParameter, maKhoaParameter, maSinhVienParameter);
+        }
+    
+        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<SP_HD_GetAllHuongDanDeTai_Result> SP_HD_GetAllHuongDanDeTai(string tenSV, Nullable<int> maGV, string maDT, Nullable<decimal> ketQua)
+        {
+            var tenSVParameter = tenSV != null ?
+                new ObjectParameter("TenSV", tenSV) :
+                new ObjectParameter("TenSV", typeof(string));
+    
+            var maGVParameter = maGV.HasValue ?
+                new ObjectParameter("MaGV", maGV) :
+                new ObjectParameter("MaGV", typeof(int));
+    
+            var maDTParameter = maDT != null ?
+                new ObjectParameter("MaDT", maDT) :
+                new ObjectParameter("MaDT", typeof(string));
+    
+            var ketQuaParameter = ketQua.HasValue ?
+                new ObjectParameter("KetQua", ketQua) :
+                new ObjectParameter("KetQua", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_HD_GetAllHuongDanDeTai_Result>("SP_HD_GetAllHuongDanDeTai", tenSVParameter, maGVParameter, maDTParameter, ketQuaParameter);
         }
     }
 }

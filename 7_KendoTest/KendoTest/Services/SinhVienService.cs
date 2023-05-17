@@ -18,7 +18,7 @@ namespace KendoTest.Services
         ThucTapEntities ctx = new ThucTapEntities();
         public List<SinhVienViewModel> LoadSinhVien(ParamSinhVien param)
         {
-            var listSV = ctx.SP_SV_GetAllSinhVien(param.HoTen, param.NamSinh, param.QueQuan, param.TenKhoa, param.MaKhoa).ToList();
+            var listSV = ctx.SP_SV_GetAllSinhVien(param.HoTen, param.NamSinh, param.QueQuan, param.TenKhoa, param.MaKhoa,param.MaSinhVien).ToList();
             List<SinhVienViewModel> sinhVien = new List<SinhVienViewModel>();
                             
             if(listSV != null && listSV.Count > 0)

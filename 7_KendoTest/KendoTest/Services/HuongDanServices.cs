@@ -11,52 +11,23 @@ namespace KendoTest.Services
     {
         ThucTapEntities ctx = new ThucTapEntities();
 
-        public List<HuongDanViewModel> loadList(string tenSV, string maDT, int? maGV, decimal? KQ)
+        public List<HuongDanViewModel> loadList(ParamHuongDan param)
         {
-
-            var lst = ctx.TBLHuongDans.AsQueryable();
-            var maSV = ctx.TBLSinhViens.Where(x => x.Hotensv == tenSV).FirstOrDefault();        
-            //if (maSV != null)
-            //{
-            //    lst = lst.Where(l => l.Masv == maSV);
-            //}
-
-            if (!string.IsNullOrEmpty(maDT))
+            var listDT = ctx.SP_HD_GetAllHuongDanDeTai(param.TenSV,param.MaGV,param.MaDT,param.KetQua).ToList();
+            List<HuongDanViewModel> result = new List<HuongDanViewModel>();
+            if (listDT != null && listDT.Count > 0)
             {
-                lst = lst.Where(l => l.Madt.Contains(maDT));
-            }
-            if (maGV != null)
-            {
-                lst = lst.Where(l => l.Magv == maGV);
-            }
-            if (KQ != null)
-            {
-                lst = lst.Where(l => l.KetQua == KQ);
-            }
-
-            lst.ToList();
-            List<HuongDanViewModel> k = new List<HuongDanViewModel>();
-            if (lst != null && lst.Any())
-            {
-                foreach (var item in lst)
+                result = listDT.Select(m => new HuongDanViewModel
                 {
-                    var sinhVien = ctx.TBLSinhViens.Where(x => x.Masv == item.Masv).FirstOrDefault();
-                    var deTai = ctx.TBLDeTais.Where(x => x.Madt == item.Madt).FirstOrDefault();
-                    var giangVien = ctx.TBLGiangViens.Where(x => x.Magv == item.Magv).FirstOrDefault();
-                    k.Add(new HuongDanViewModel()
-                    {
-                        Id = item.Id,
-                        Tensv = sinhVien.Hotensv,
-                        Tendt = deTai.Tendt,
-                        Tengv = giangVien.Hotengv,
-                        Masv = item.Masv,
-                        Madt = item.Madt,
-                        Magv = item.Magv,
-                        KetQua = item.KetQua,
-                    });
-                }
+                    Id = m.Id,
+                    Tensv = m.Hotensv,
+                    Tengv = m.Hotengv,
+                    Tendt = m.Tendt,
+                    KetQua = m.KetQua
+               
+                }).ToList();
             }
-            return k;
+            return result;
         }
 
         public void createHD(TBLHuongDan model)
