@@ -1951,7 +1951,6 @@
     <Content Include="Views\HuongDan\Index.cshtml" />
     <Content Include="Views\HuongDan\createHD.cshtml" />
     <Content Include="Views\HuongDan\EditHD.cshtml" />
-    <Content Include="Views\HuongDan\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

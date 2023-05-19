@@ -12,5 +12,6 @@ namespace KendoTest.ViewModel
         public Nullable<int> MaGV { get; set; }
         public string MaDT { get; set; }
         public Nullable<decimal> KetQua { get; set; }
+        public string HoTen { get; set; }
     }
 }

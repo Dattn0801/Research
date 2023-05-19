@@ -16,32 +16,46 @@
     string checkbox = "<input type='checkbox' class='checkbox-select' value='#=Masv#' />";
 
 }
-
 <script>
     function filter() {
         return {
             param: {
                 HoTen: $("#hoTenSinhVien").val(),
                 MaSinhVien: $("#MaSinhVien").val(),
-                //NamSinh: $("#namSinh").val(),
-                //QueQuan: $("#queQuan").val(),
-                //TenKhoa: $("#Tenkhoa").val(),
-                //Makhoa: $("#Makhoa").val(),
             }
         }
     }
 </script>
+<style>
+    .k-multiselect-wrap > .k-i-close {
+        display: none !important;
+    }
+</style>
+
 <div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
     <div class="k-w-300">
-        @using (Html.BeginForm("CreateHD", "HuongDan", FormMethod.Post))
+        @using (Html.BeginForm("CreateHDT", "HuongDan", FormMethod.Post))
         {
-
             <div class="row">
-               <div class="form-group col-3">
-                   <div class="form-label">
-                       <label>Họ tên</label>
+               <div class="form-group col-3 pt-2">
+                   <div id="select-sinhvien" class="k-w-300">
+                       <label for="sinh vien">Sinh Viên</label>
+                       @(Html.Kendo()
+                        .MultiSelect()
+                        .Name("products")
+                        .DataTextField("HoTen")
+                        .DataValueField("MaSV")
+                        .Placeholder("Chọn Sinh Viên")
+                        .DataSource(source => {
+                            source.Read(read =>
+                            {
+                                read.Action("GetTen", "HuongDan");
+                            })
+                            
+                            .ServerFiltering(true);
+                        })
+                    )
                    </div>
-                   @Html.TextBox("undo", "", new { @class = "form-control" })
                </div>
                 <div class="form-group col-3">
                     <div class="form-label">
@@ -61,20 +75,22 @@
                     </div>
                     @Html.TextBoxFor(x => x.KetQua, new { @class = "form-control" })
                 </div>
-                
+
             </div>
+            
             <br />
             <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
-
-        }
+         }   
     </div>
 </div>
 
-
-@(Html.Kendo().Window().Name("window").Title("About Alvar Aalto").Visible(false)
+@(Html.Kendo().Window()
+        .Name("window")
+        .Title("Sinh Viên")
+        .Resizable(r => r.MinWidth(1200))
+        .Visible(false)
         .Content(
-
-    @<text>
+        @<text>
             <div class="row">
                 <div class="form-group col-3">
                     <div class="form-label">
@@ -102,15 +118,6 @@
                     columns.Bound(sv => sv.Tenkhoa).Width("250px").Title("Khoa");
                     columns.Bound(sv => sv.Masv).Title("<input type='checkbox' id='checkAll' />").Width(40).Sortable(false).ClientTemplate(checkbox);
                 })
-
-                .ToolBar(toolbar =>
-                {
-                    toolbar.Excel();
-                    toolbar.Pdf();
-
-                })
-                .Pdf(pdf => pdf.ProxyURL(Url.Action("Excel_Export_Save", "grid")))
-                .Excel(excel => excel.ProxyURL(Url.Action("Excel_Export_Save", "grid")))
                 .DataSource(dataSource => dataSource
                     .Ajax()
                     .PageSize(10)
@@ -123,20 +130,14 @@
                 .AllowCopy(true)
                 .Scrollable(scroll => scroll.Height("auto"))
                 .Sortable().Selectable().Resizable(r => r.Columns(true))
-
                 )
-
-
         </div>
-
     </text>)
     .Draggable()
     .Resizable()
     .Width(600)
     .Actions(actions => actions.Pin().Minimize().Maximize().Close())
     .Events(ev => ev.Close("onClose")))
-
-
 <script>
     //search
     $("#btnSearch").click(function () {
@@ -146,12 +147,12 @@
 
     //popup
     function onClose() {
-        $("#undo").show();
+        $("#select-sinhvien").show();
     }
-    $(document).ready(function () {
-        $("#undo").bind("click", function () {
-            $("#window").data("kendoWindow").open();
 
+    $(document).ready(function () {
+        $("#select-sinhvien").bind("click", function () {
+            $("#window").data("kendoWindow").open();
         });
     });
 
@@ -168,21 +169,32 @@
             $('#checkAll').prop('checked', false);
         }
     });
-   
+
+    //luu
     var id = [];
+    var idNhan = [];
     $("#btnSave").on("click", function () {
         $(".checkbox-select:checked").each(function (index, elem) {
             if ($(elem).prop('checked') == true) {
-                id.push(elem.value)
-                //remove duplicate
-                //let IdSinhVien = id.filter((c, index) => {
-                //    return id.indexOf(c) === index;
-                //});
-                //console.log("uni", IdSinhVien)
+                id.push(parseInt(elem.value))
             }
         });
-        console.log(id)
+        $.ajax({
+            url: "/HuongDan/GetTen",
+            type: "POST",
+            data: {
+                arrID: id,
+            },
+            success: function (data) {
+                idNhan = data;
+                console.log("dt", data);
+                console.log(idNhan);
+            }
+        })
+        //close popup
+        $("#window").data("kendoWindow").close();
     });
+ 
 </script>
 
 <style>

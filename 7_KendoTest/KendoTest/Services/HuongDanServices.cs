@@ -78,5 +78,10 @@ namespace KendoTest.Services
         {
             return ctx.TBLDeTais.ToList();
         }
+
+        public List<SP_SV_GetAllSinhVien_Result> ListSV()
+        {
+            return ctx.SP_SV_GetAllSinhVien(null, null, null, null, null, null).ToList();
+        }
     }
 }

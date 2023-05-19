@@ -15,6 +15,7 @@ namespace KendoTest.Controllers
     public class HuongDanController : Controller
     {
         HuongDanServices huongdanService = new HuongDanServices();
+        SinhVienService sinhVienService = new SinhVienService();    
         public ActionResult Index()
         {
             var listDT = huongdanService.ListDeTai();
@@ -44,15 +45,31 @@ namespace KendoTest.Controllers
             ViewBag.ListGV = new SelectList(listGV, "Magv", "Hotengv");
             return View("CreateHD");
         }
+        //[HttpPost]
+        //public ActionResult CreateHDT(TBLHuongDan model)
+        //{
+        //    huongdanService.createHD(model);
+        //    //var listKhoa = svService.ListKhoa();
+        //    //ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
+        //    return RedirectToAction("Index");
+        //}
+
         [HttpPost]
-        public ActionResult CreateHD(TBLHuongDan model)
+        public ActionResult CreateHDT(TBLHuongDan model)
         {
-            huongdanService.createHD(model);
-            //var listKhoa = svService.ListKhoa();
-            //ViewBag.ListKhoa = new SelectList(listKhoa, "MaKhoa", "Tenkhoa");
+            if(Session["listSV"] != null) {
+                int?[] listSV = (int?[])Session["listSV"];
+                foreach (var item in listSV)
+                {
+                    model.Masv = (int)item;
+                    huongdanService.createHD(model);
+
+                }
+            }
+
+            
             return RedirectToAction("Index");
         }
-
         public ActionResult EditHD(int? maHD)
         {
             var hd = huongdanService.getHD(maHD);
@@ -83,9 +100,18 @@ namespace KendoTest.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult test()
+        public ActionResult GetTen(int?[] arrID)
         {
-            return View();
+            var listSV = huongdanService.ListSV();
+            var lstGetTenSV = new List<ParamHuongDan>();
+            if (arrID!= null)
+            {
+                var lstStrID = arrID.ToList();
+                lstGetTenSV = listSV.Where(x => lstStrID.Contains(x.Masv)).Select(p => new ParamHuongDan {HoTen = p.Hotensv}).ToList();
+                Session["listSV"] = arrID;
+            }
+            
+            return Json(lstGetTenSV.Select(p=>new ParamHuongDan { MaSV = p.MaSV, HoTen = p.HoTen}),JsonRequestBehavior.AllowGet);
         }
 
     }
