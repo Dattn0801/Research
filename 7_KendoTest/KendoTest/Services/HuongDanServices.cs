@@ -30,13 +30,13 @@ namespace KendoTest.Services
             return result;
         }
 
-        public void createHD(TBLHuongDan model)
+        public void createHD(AddUpdateGVHuongDan model)
         {
-            if (model != null)
-            {
-                ctx.TBLHuongDans.Add(model);
-            }
-            ctx.SaveChanges();
+            //var listSV = model.MaSV.ToList();
+            //foreach(var item in listSV)
+            //{
+            //    ctx.SP_HD_AddEditHuongDanDeTai(null, item, model.MaGV, model.MaDT, model.KetQua);
+            //}
         }
         public TBLHuongDan editHD(TBLHuongDan model)
         {

@@ -17,6 +17,7 @@ namespace KendoTest.ViewModel
         public Nullable<int> Magv { get; set; }
         public Nullable<decimal> KetQua { get; set; }
 
+
         public virtual TBLDeTai TBLDeTai { get; set; }
         public virtual TBLGiangVien TBLGiangVien { get; set; }
     }

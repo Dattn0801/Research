@@ -152,8 +152,8 @@
         </Function>
         <Function Name="SP_HD_AddEditHuongDanDeTai" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
-          <Parameter Name="MaSV" Type="nvarchar" Mode="In" />
-          <Parameter Name="MaGV" Type="nvarchar" Mode="In" />
+          <Parameter Name="MaSV" Type="int" Mode="In" />
+          <Parameter Name="MaGV" Type="int" Mode="In" />
           <Parameter Name="MaDT" Type="nvarchar" Mode="In" />
           <Parameter Name="KetQua" Type="decimal" Mode="In" />
         </Function>
@@ -405,8 +405,8 @@
           </FunctionImport>
           <FunctionImport Name="SP_HD_AddEditHuongDanDeTai">
             <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="MaSV" Mode="In" Type="String" />
-            <Parameter Name="MaGV" Mode="In" Type="String" />
+            <Parameter Name="MaSV" Mode="In" Type="Int32" />
+            <Parameter Name="MaGV" Mode="In" Type="Int32" />
             <Parameter Name="MaDT" Mode="In" Type="String" />
             <Parameter Name="KetQua" Mode="In" Type="Decimal" />
           </FunctionImport>

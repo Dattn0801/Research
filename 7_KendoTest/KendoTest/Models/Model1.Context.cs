@@ -168,19 +168,19 @@ namespace KendoTest.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GV_GetAllGiangVien_Result>("SP_GV_GetAllGiangVien", maGVParameter, hoTenParameter, luongParameter, maKhoaParameter);
         }
     
-        public virtual int SP_HD_AddEditHuongDanDeTai(Nullable<int> id, string maSV, string maGV, string maDT, Nullable<decimal> ketQua)
+        public virtual int SP_HD_AddEditHuongDanDeTai(Nullable<int> id, Nullable<int> maSV, Nullable<int> maGV, string maDT, Nullable<decimal> ketQua)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
     
-            var maSVParameter = maSV != null ?
+            var maSVParameter = maSV.HasValue ?
                 new ObjectParameter("MaSV", maSV) :
-                new ObjectParameter("MaSV", typeof(string));
+                new ObjectParameter("MaSV", typeof(int));
     
-            var maGVParameter = maGV != null ?
+            var maGVParameter = maGV.HasValue ?
                 new ObjectParameter("MaGV", maGV) :
-                new ObjectParameter("MaGV", typeof(string));
+                new ObjectParameter("MaGV", typeof(int));
     
             var maDTParameter = maDT != null ?
                 new ObjectParameter("MaDT", maDT) :

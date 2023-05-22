@@ -204,6 +204,7 @@
     <Compile Include="Services\HuongDanServices.cs" />
     <Compile Include="Services\KhoaServices.cs" />
     <Compile Include="Services\SinhVienService.cs" />
+    <Compile Include="ViewModel\AddUpdateGVHuongDan.cs" />
     <Compile Include="ViewModel\Detai.cs" />
     <Compile Include="ViewModel\GiangVien.cs" />
     <Compile Include="ViewModel\HuongDan.cs" />

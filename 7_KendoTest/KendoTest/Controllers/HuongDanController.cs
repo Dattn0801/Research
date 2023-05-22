@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using System.Web.UI.WebControls;
 
 namespace KendoTest.Controllers
 {
@@ -55,19 +56,14 @@ namespace KendoTest.Controllers
         //}
 
         [HttpPost]
-        public ActionResult CreateHDT(TBLHuongDan model)
+        public ActionResult CreateHD(AddUpdateGVHuongDan model)
         {
-            if(Session["listSV"] != null) {
-                int?[] listSV = (int?[])Session["listSV"];
-                foreach (var item in listSV)
-                {
-                    model.Masv = (int)item;
-                    huongdanService.createHD(model);
 
-                }
+            if (model == null || model.MaSV == null || string.IsNullOrEmpty(model.MaDT) || model.MaGV.GetValueOrDefault(0) == 0 || !model.KetQua.HasValue)
+            {
+                return Json(model);
             }
-
-            
+            huongdanService.createHD(model);
             return RedirectToAction("Index");
         }
         public ActionResult EditHD(int? maHD)

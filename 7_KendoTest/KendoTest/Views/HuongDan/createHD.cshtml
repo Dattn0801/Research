@@ -34,29 +34,7 @@
 
 <div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
     <div class="k-w-300">
-        @using (Html.BeginForm("CreateHDT", "HuongDan", FormMethod.Post))
-        {
-            <div class="row">
-               <div class="form-group col-3 pt-2">
-                   <div id="select-sinhvien" class="k-w-300">
-                       <label for="sinh vien">Sinh Viên</label>
-                       @(Html.Kendo()
-                        .MultiSelect()
-                        .Name("products")
-                        .DataTextField("HoTen")
-                        .DataValueField("MaSV")
-                        .Placeholder("Chọn Sinh Viên")
-                        .DataSource(source => {
-                            source.Read(read =>
-                            {
-                                read.Action("GetTen", "HuongDan");
-                            })
-                            
-                            .ServerFiltering(true);
-                        })
-                    )
-                   </div>
-               </div>
+            <div class="row">             
                 <div class="form-group col-3">
                     <div class="form-label">
                         <label>Đề tài</label>
@@ -77,37 +55,28 @@
                 </div>
 
             </div>
-            
+
             <br />
-            <button type="submit" id="submit" class="btn btn-primary">Lưu</button>
-         }   
     </div>
 </div>
 
-@(Html.Kendo().Window()
-        .Name("window")
-        .Title("Sinh Viên")
-        .Resizable(r => r.MinWidth(1200))
-        .Visible(false)
-        .Content(
-        @<text>
-            <div class="row">
-                <div class="form-group col-3">
-                    <div class="form-label">
-                        <label>Tên sinh viên</label>
-                        @Html.TextBox("hoTenSinhVien", null, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="form-group col-3">
-                    <div class="form-label">
-                        <label>Mã sinh viên</label>
-                        @Html.TextBox("MaSinhVien", null, new { @class = "form-control" })
-                    </div>
-                </div>
+<div class="row">
+    <div class="form-group col-3">
+        <div class="form-label">
+            <label>Tên sinh viên</label>
+            @Html.TextBox("hoTenSinhVien", null, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group col-3">
+        <div class="form-label">
+            <label>Mã sinh viên</label>
+            @Html.TextBox("MaSinhVien", null, new { @class = "form-control" })
+        </div>
+    </div>
 
-                <p> <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" /> </p>
-                <p> <input id="btnSave" type="submit" value="Lưu" class="btn btn-danger" /></p>
-                @(Html.Kendo().Grid<KendoTest.ViewModel.SinhVienViewModel>()
+    <p> <input id="btnSearch" type="submit" value="Tìm kiếm" class="btn btn-danger" /> </p>
+    <p> <input id="btnSave" type="submit" value="Lưu" class="btn btn-danger" /></p>
+    @(Html.Kendo().Grid<KendoTest.ViewModel.SinhVienViewModel>()
                 .Name("grid")
                 .Columns(columns =>
                 {
@@ -131,13 +100,9 @@
                 .Scrollable(scroll => scroll.Height("auto"))
                 .Sortable().Selectable().Resizable(r => r.Columns(true))
                 )
-        </div>
-    </text>)
-    .Draggable()
-    .Resizable()
-    .Width(600)
-    .Actions(actions => actions.Pin().Minimize().Maximize().Close())
-    .Events(ev => ev.Close("onClose")))
+</div>
+
+
 <script>
     //search
     $("#btnSearch").click(function () {
@@ -145,15 +110,16 @@
         grid.dataSource.read()
     })
 
-    //popup
-    function onClose() {
-        $("#select-sinhvien").show();
-    }
+    ////popup
+    //function onClose() {
+    //    $("#select-sinhvien").show();
+    //}
 
     $(document).ready(function () {
-        $("#select-sinhvien").bind("click", function () {
-            $("#window").data("kendoWindow").open();
-        });
+        //$("#select-sinhvien").bind("click", function () {
+        //    $("#window").data("kendoWindow").open();
+        //});
+
     });
 
     //multiple select
@@ -171,30 +137,37 @@
     });
 
     //luu
-    var id = [];
-    var idNhan = [];
+
     $("#btnSave").on("click", function () {
+        var id = [];
         $(".checkbox-select:checked").each(function (index, elem) {
             if ($(elem).prop('checked') == true) {
                 id.push(parseInt(elem.value))
             }
         });
+        var MaDT = $('#Madt').val();
+        var MaGV = $('#Magv').val();
+        var KetQua = $('#KetQua').val();
         $.ajax({
-            url: "/HuongDan/GetTen",
+            url: "/HuongDan/CreateHD",
             type: "POST",
             data: {
-                arrID: id,
+                model: {
+                    MaDT: MaDT,
+                    MaGV: MaGV,
+                    MaSV: id,
+                    KetQua: KetQua,
+                }
+             
             },
             success: function (data) {
-                idNhan = data;
-                console.log("dt", data);
-                console.log(idNhan);
+
             }
         })
         //close popup
         $("#window").data("kendoWindow").close();
     });
- 
+
 </script>
 
 <style>
